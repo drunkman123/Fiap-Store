@@ -1,0 +1,9 @@
+.vs/
+Application/bin
+Application/obj
+Domain/bin
+Domain/obj
+Infrastructure/bin
+Infrastructure/obj
+fiap-store/bin
+fiap-store/obj
