@@ -48,6 +48,11 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<bool> Exists(Produto cliente)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Produto> GetById(int id)
         {
             throw new NotImplementedException();

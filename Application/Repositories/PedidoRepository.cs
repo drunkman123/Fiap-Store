@@ -33,6 +33,11 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<bool> Exists(Pedido cliente)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Pedido> GetById(int id)
         {
             //using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);

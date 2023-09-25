@@ -25,7 +25,6 @@ namespace Application.Repositories
             endereco.IdCliente= clienteId;
             connection.Execute(insertEnderecoQuery, endereco);
 
-
             return true;
 
         }
@@ -70,6 +69,14 @@ namespace Application.Repositories
         public void Deletar(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> Exists(Cliente cliente)
+        {
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            var query = "SELECT COUNT(*) FROM Cliente WHERE CPF = @CPF";
+            int count = connection.ExecuteScalar<int>(query, new { CPF = cliente.CPF });
+            return count > 0;
         }
 
         public async Task<Cliente> GetById(int idCliente)

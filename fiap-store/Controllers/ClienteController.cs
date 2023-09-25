@@ -3,6 +3,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Application.Mappings;
 using Application.DTO;
+using Application.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,7 +39,13 @@ namespace fiap_store.Controllers
         [HttpPost]
         public async Task<IActionResult> Cadastrar([FromBody] CadastrarClienteRequest cliente)
         {
-            var id = await _clienteService.Cadastrar(cliente.ToClienteDomain());
+            var clienteDomain = cliente.ToClienteDomain();
+            bool clienteExists = await _clienteService.Exists(clienteDomain);
+
+            if (clienteExists)
+                return NotFound("Usuário já cadastrado.");
+            
+            var id = await _clienteService.Cadastrar(clienteDomain);
             var mensagem = $"Usuário criado com sucesso! | Id: {id} | Nome: {cliente.Nome}";
             return Ok(mensagem);
         }
@@ -47,7 +54,7 @@ namespace fiap_store.Controllers
         [HttpPost("{clienteId}")]
         public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco, int clienteId)
         {
-            await _clienteService.AdicionarEndereco(clienteId,endereco);
+            await _clienteService.AdicionarEndereco(clienteId, endereco);
             var mensagem = $"Endereço adicionado com sucesso! | ClienteId: {clienteId}";
             return Ok(mensagem);
         }

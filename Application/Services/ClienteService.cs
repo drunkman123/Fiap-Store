@@ -30,12 +30,17 @@ namespace Application.Services
 
         public async Task<int> Cadastrar(Cliente entidade)
         {
-            return await _clienteRepository.Cadastrar(entidade);
+                return await _clienteRepository.Cadastrar(entidade);
         }
 
         public void Deletar(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> Exists(Cliente entidade)
+        {
+            return await _clienteRepository.Exists(entidade);
         }
 
         public async Task<Cliente> GetById(int id)
@@ -47,5 +52,6 @@ namespace Application.Services
         {
             throw new NotImplementedException();
         }
+
     }
 }

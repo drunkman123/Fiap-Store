@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Application.Interfaces
         Task<int> Cadastrar(T entidade);
         void Alterar(T entidade);
         void Deletar(int id);
+        Task<bool> Exists(T cliente);
 
     }
 }

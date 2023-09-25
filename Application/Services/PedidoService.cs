@@ -25,6 +25,11 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
+        public Task<bool> Exists(Pedido cliente)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Pedido> GetById(int id)
         {
             throw new NotImplementedException();
