@@ -42,9 +42,9 @@ namespace Application.Repositories
             try
             {
                 string insertClienteQuery = @"
-            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password) 
+            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password, IdPermissao) 
             OUTPUT INSERTED.[IdCliente]
-            VALUES (@Nome, @CPF, @Telefone, @Email, @Password);";
+            VALUES (@Nome, @CPF, @Telefone, @Email, @Password, @IdPermissao);";
 
                 int clienteId = connection.QuerySingle<int>(insertClienteQuery, entidade, transaction);
 
@@ -89,6 +89,7 @@ namespace Application.Repositories
                                         c.CPF,
                                         c.Telefone,
                                         c.Email,
+                                        c.IdPermissao,
                                         e.IdEndereco,
                                         e.Rua,
                                         e.Numero,
@@ -109,7 +110,7 @@ namespace Application.Repositories
                     if (!ClienteDictionary.TryGetValue(c.IdCliente, out var cliente))
                     {
                         cliente = c;
-                        cliente.Endereco = new List<Endereco>();
+                        cliente.Endereco = new List<Endereco>();                        
                         ClienteDictionary.Add(c.IdCliente, cliente);
                     }
 

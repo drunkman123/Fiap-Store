@@ -1,4 +1,5 @@
 ﻿using Application.DTO;
+using Domain.Enum;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Application.Mappings
             clienteResponse.Telefone = clienteDomain.Telefone;
             clienteResponse.Email = clienteDomain.Email;
             clienteResponse.Endereco = clienteDomain.Endereco!;
+            clienteResponse.Permissao = clienteDomain.IdPermissao.ToString();
 
             return clienteResponse;
 

@@ -43,10 +43,10 @@ namespace fiap_store.Controllers
             bool clienteExists = await _clienteService.Exists(clienteDomain);
 
             if (clienteExists)
-                return NotFound("Usuário já cadastrado.");
+                return NotFound("Cliente já cadastrado.");
             
             var id = await _clienteService.Cadastrar(clienteDomain);
-            var mensagem = $"Usuário criado com sucesso! | Id: {id} | Nome: {cliente.Nome}";
+            var mensagem = $"Cliente cadastrado com sucesso! | Id: {id} | Nome: {cliente.Nome}";
             return Ok(mensagem);
         }
 

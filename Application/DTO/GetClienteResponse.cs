@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Enum;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Application.DTO
         public string CPF { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
+        public string Permissao { get; set; }
         public ICollection<Endereco> Endereco { get; set; }
 
     }
