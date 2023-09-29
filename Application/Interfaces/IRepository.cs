@@ -14,7 +14,7 @@ namespace Application.Interfaces
         Task<int> Cadastrar(T entidade);
         void Alterar(T entidade);
         void Deletar(int id);
-        Task<bool> Exists(T entidade);
+        //Task<bool> Exists(T entidade);
 
     }
 }

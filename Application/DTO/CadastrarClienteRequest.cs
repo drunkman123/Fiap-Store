@@ -14,6 +14,7 @@ namespace Application.DTO
         public string Telefone { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public DateTime DataNasc { get; set; }
         public Endereco Endereco { get; set; }
     }
 }

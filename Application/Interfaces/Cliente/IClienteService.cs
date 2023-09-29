@@ -8,5 +8,6 @@ namespace Application.Interfaces
 {
     public interface IClienteService : IClienteRepository
     {
+        
     }
 }

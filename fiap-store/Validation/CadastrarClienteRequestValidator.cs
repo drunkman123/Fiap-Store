@@ -18,8 +18,8 @@ namespace fiap_store.Validation
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Senha é obrigatória.")
-            .MinimumLength(8).WithMessage("Senha mínima de 8 caracteres.")
-            .Matches(PasswordRegex()).WithMessage("Senha deve possuir, pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.");
+                .MinimumLength(8).WithMessage("Senha mínima de 8 caracteres.")
+                .Matches(PasswordRegex()).WithMessage("Senha deve possuir, pelo menos, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.");
 
             RuleFor(x => x.Telefone)
                 .NotEmpty().WithMessage("Telefone é obrigatório.")
@@ -31,8 +31,7 @@ namespace fiap_store.Validation
 
             RuleFor(x => x.Endereco.Numero)
                 .NotEmpty().WithMessage("Número é obrigatório.")
-                .MaximumLength(10).WithMessage("Máximo de 10 caracteres.");
-            ;
+                .MaximumLength(10).WithMessage("Máximo de 10 caracteres.");            
 
             RuleFor(x => x.Endereco.Cidade)
                 .NotEmpty().WithMessage("Cidade é obrigatória.")
@@ -49,6 +48,10 @@ namespace fiap_store.Validation
             RuleFor(x => x.CPF)
                 .NotEmpty().WithMessage("CPF é obrigatório.")
                 .Matches(@"^\d{11}$").WithMessage("CPF apenas com 11 dígitos");
+
+            RuleFor(x => x.DataNasc)
+                .NotEmpty().WithMessage("Data de nascimento é obrigatório.")
+                .Must(BeAtLeast18YearsOld).WithMessage("Idade menor que 18 anos.");
         }
 
         [GeneratedRegex("^[\\p{L} ]+$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "pt-BR")]
@@ -58,6 +61,16 @@ namespace fiap_store.Validation
         private static partial Regex PasswordRegex();
         [GeneratedRegex(@"^\d{11}$", RegexOptions.IgnoreCase | RegexOptions.Compiled, "pt-BR")]
         private static partial Regex TelefoneRegex();
+        private bool BeAtLeast18YearsOld(DateTime birthDate)
+        {
+            int age = DateTime.Today.Year - birthDate.Year;
 
+            if (birthDate.Date > DateTime.Today.AddYears(-age))
+            {
+                age--;
+            }
+
+            return age >= 18;
+        }
     }
 }

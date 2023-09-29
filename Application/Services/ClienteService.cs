@@ -38,9 +38,9 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Exists(Cliente entidade)
+        public async Task<bool> ExistsClient(string cpf)
         {
-            return await _clienteRepository.Exists(entidade);
+            return await _clienteRepository.ExistsClient(cpf);
         }
 
         public async Task<Cliente> GetById(int id)

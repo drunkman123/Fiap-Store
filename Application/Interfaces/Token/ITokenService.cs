@@ -11,7 +11,7 @@ namespace Application.Interfaces.Token
     public interface ITokenService
     {
         string GerarToken(Cliente cliente);
-        Task<Cliente> VerifyLogin(LoginRequest loginRequest);
+        Task<Cliente> VerifyLogin(string cpf);
 
     }
 }

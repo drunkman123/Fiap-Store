@@ -28,10 +28,10 @@ namespace Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, usuario.Nome!),
-                    new Claim(ClaimTypes.NameIdentifier, usuario.CPF!),
+                    new Claim("IdCliente",usuario.IdCliente.ToString()),
+                    new Claim("Nome", usuario.Nome!),
+                    new Claim("CPF", usuario.CPF!),
                     new Claim(ClaimTypes.Role, usuario.IdPermissao.ToString()),
-                    //new Claim("Id", usuario.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -42,10 +42,10 @@ namespace Application.Services
 
 
         }
-        public async Task<Cliente> VerifyLogin(LoginRequest loginRequest)
+        public async Task<Cliente> VerifyLogin(string cpf)
         {
 
-            return await _tokenRepository.ObterJWTCliente(loginRequest);
+            return await _tokenRepository.ObterJWTCliente(cpf);
         }
     }
 }

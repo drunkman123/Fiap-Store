@@ -42,9 +42,9 @@ namespace Application.Repositories
             try
             {
                 string insertClienteQuery = @"
-            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password, IdPermissao) 
+            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password, IdPermissao, Data_Nascimento) 
             OUTPUT INSERTED.[IdCliente]
-            VALUES (@Nome, @CPF, @Telefone, @Email, @Password, @IdPermissao);";
+            VALUES (@Nome, @CPF, @Telefone, @Email, @Password, @IdPermissao, @DataNasc);";
 
                 int clienteId = connection.QuerySingle<int>(insertClienteQuery, entidade, transaction);
 
@@ -71,11 +71,11 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<bool> Exists(Cliente cliente)
+        public async Task<bool> ExistsClient(string cpf)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             var query = "SELECT COUNT(*) FROM Cliente WHERE CPF = @CPF";
-            int count = connection.ExecuteScalar<int>(query, new { CPF = cliente.CPF });
+            int count = connection.ExecuteScalar<int>(query, new { CPF = cpf });
             return count > 0;
         }
 

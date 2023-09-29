@@ -20,11 +20,11 @@ namespace Application.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public async Task<Cliente> ObterJWTCliente(LoginRequest loginRequest)
+        public async Task<Cliente> ObterJWTCliente(string cpf)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
-            var query = "SELECT * FROM Cliente WHERE Cliente.CPF = @CPF AND Cliente.Password = @password";
-            return connection.Query<Cliente>(query, new { loginRequest }).FirstOrDefault();            
+            var query = "SELECT * FROM Cliente WHERE Cliente.CPF = @CPF";
+            return connection.Query<Cliente>(query,  new { CPF = cpf } ).FirstOrDefault();            
         }
     }
 }

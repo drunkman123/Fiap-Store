@@ -10,7 +10,7 @@ namespace Application.Interfaces.Token
 {
     public interface ITokenRepository
     {
-        Task<Cliente> ObterJWTCliente(LoginRequest loginRequest);
+        Task<Cliente> ObterJWTCliente(string cpf);
 
     }
 }

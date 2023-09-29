@@ -1,7 +1,5 @@
 ﻿using Application.DTO;
-using Application.Interfaces;
 using Application.Interfaces.Token;
-using Application.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +11,6 @@ namespace fiap_store.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-
-
         private readonly ITokenService _tokenService;
 
         public LoginController(ITokenService tokenService)
@@ -25,11 +21,13 @@ namespace fiap_store.Controllers
         [HttpPost]
         public async Task<IActionResult> Autenticar([FromBody] LoginRequest loginRequest)
         {
-            loginRequest.Password = BCrypt.Net.BCrypt.HashPassword(loginRequest.Password);
 
-            Cliente cliente = await _tokenService.VerifyLogin(loginRequest);
+            Cliente cliente = await _tokenService.VerifyLogin(loginRequest.CPF);
             if (cliente == null)
-                return NotFound(new { mensagem = "CPF ou Senha inválido." });
+                return NotFound(new { mensagem = "Usuário não cadastrado." });
+            var success = BCrypt.Net.BCrypt.Verify(loginRequest.Password, cliente.Password);
+            if (success == false)
+                return BadRequest(new { mensage = "CPF ou Senha inválidos." });
             var token = _tokenService.GerarToken(cliente);
             cliente.Password = null;
             return Ok(new

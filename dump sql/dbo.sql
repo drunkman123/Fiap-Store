@@ -12,7 +12,7 @@
  Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 28/09/2023 18:23:02
+ Date: 29/09/2023 11:44:03
 */
 
 
@@ -30,7 +30,8 @@ CREATE TABLE [dbo].[Cliente] (
   [Telefone] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Email] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [Password] nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [IdPermissao] tinyint  NOT NULL
+  [IdPermissao] tinyint  NOT NULL,
+  [Data_Nascimento] date  NOT NULL
 )
 GO
 
@@ -157,7 +158,16 @@ GO
 -- ----------------------------
 -- Auto increment value for Cliente
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 7)
+DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 11)
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table Cliente
+-- ----------------------------
+ALTER TABLE [dbo].[Cliente] ADD CONSTRAINT [UN_CPF] UNIQUE NONCLUSTERED ([CPF] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
 GO
 
 
@@ -173,7 +183,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Endereco
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 13)
+DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 10)
 GO
 
 
