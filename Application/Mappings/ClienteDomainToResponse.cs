@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Domain.Models;
+using System;
 
 namespace Application.Mappings
 {
@@ -13,7 +14,7 @@ namespace Application.Mappings
             clienteResponse.Telefone = clienteDomain.Telefone;
             clienteResponse.Email = clienteDomain.Email;
             clienteResponse.Endereco = clienteDomain.Endereco!;
-            clienteResponse.DataNasc = clienteDomain.DataNasc!;
+            clienteResponse.DataNascimento = DateOnly.FromDateTime(clienteDomain.DataNascimento)!;
             clienteResponse.Permissao = clienteDomain.IdPermissao.ToString();
 
             return clienteResponse;

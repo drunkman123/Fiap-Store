@@ -2,14 +2,13 @@ using Application.Interfaces;
 using Application.Interfaces.Token;
 using Application.Repositories;
 using Application.Services;
-using fiap_store.Infraestructure;
 using fiap_store.Validation;
 using FluentValidation.AspNetCore;
+using Infrastructure.DbConnection;
+using Infrastructure.Logging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,14 +59,22 @@ builder.Services.AddControllers().AddFluentValidation(x =>
     x.DisableDataAnnotationsValidation = true;
 });
 builder.Services.AddControllers();
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+
 builder.Services.AddScoped<IClienteService,ClienteService>();
 builder.Services.AddScoped<IClienteRepository,ClienteRepository>();
+
 builder.Services.AddScoped<IProdutoService,ProdutoService>();
 builder.Services.AddScoped<IProdutoRepository,ProdutoRepository>();
+
 builder.Services.AddSingleton<IDictionary<DatabaseConnectionName, string>>(connectionDict);
+
+builder.Services.AddSingleton<LogErrorRepository>();
+
 builder.Services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -102,7 +109,11 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.UseMiddleware<ValidationExceptionMiddleware>();
+
+app.UseMiddleware<ExceptionMiddleware>();
+
 
 app.MapControllers();
 

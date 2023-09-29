@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Dapper;
 using Domain.Models;
-using fiap_store.Infraestructure;
+using Infrastructure.DbConnection;
 
 namespace Application.Repositories
 {
@@ -42,9 +42,9 @@ namespace Application.Repositories
             try
             {
                 string insertClienteQuery = @"
-            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password, IdPermissao, Data_Nascimento) 
+            INSERT INTO dbo.Cliente (Nome, CPF, Telefone, Email, Password, IdPermissao, DataNascimento) 
             OUTPUT INSERTED.[IdCliente]
-            VALUES (@Nome, @CPF, @Telefone, @Email, @Password, @IdPermissao, @DataNasc);";
+            VALUES (@Nome, @CPF, @Telefone, @Email, @Password, @IdPermissao, @DataNascimento);";
 
                 int clienteId = connection.QuerySingle<int>(insertClienteQuery, entidade, transaction);
 
@@ -90,6 +90,7 @@ namespace Application.Repositories
                                         c.Telefone,
                                         c.Email,
                                         c.IdPermissao,
+                                        c.DataNascimento,
                                         e.IdEndereco,
                                         e.Rua,
                                         e.Numero,

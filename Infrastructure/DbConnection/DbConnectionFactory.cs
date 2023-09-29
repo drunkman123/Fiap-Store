@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace fiap_store.Infraestructure
+namespace Infrastructure.DbConnection
 {
     public class DbConnectionFactory : IDbConnectionFactory
     {

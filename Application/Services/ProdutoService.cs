@@ -1,8 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Repositories;
-using Dapper;
 using Domain.Models;
-using fiap_store.Infraestructure;
 
 
 namespace Application.Services

@@ -49,7 +49,7 @@ namespace fiap_store.Validation
                 .NotEmpty().WithMessage("CPF é obrigatório.")
                 .Matches(@"^\d{11}$").WithMessage("CPF apenas com 11 dígitos");
 
-            RuleFor(x => x.DataNasc)
+            RuleFor(x => x.DataNascimento)
                 .NotEmpty().WithMessage("Data de nascimento é obrigatório.")
                 .Must(BeAtLeast18YearsOld).WithMessage("Idade menor que 18 anos.");
         }

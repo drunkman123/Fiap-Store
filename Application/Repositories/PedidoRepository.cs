@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Dapper;
 using Domain.Models;
-using fiap_store.Infraestructure;
+using Infrastructure.DbConnection;
 using System;
 using System.Collections.Generic;
 using System.Linq;

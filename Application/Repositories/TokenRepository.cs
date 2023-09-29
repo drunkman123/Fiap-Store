@@ -2,7 +2,7 @@
 using Application.Interfaces.Token;
 using Dapper;
 using Domain.Models;
-using fiap_store.Infraestructure;
+using Infrastructure.DbConnection;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

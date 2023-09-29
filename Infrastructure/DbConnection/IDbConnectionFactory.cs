@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace fiap_store.Infraestructure
+namespace Infrastructure.DbConnection
 {
     public interface IDbConnectionFactory
     {

@@ -21,7 +21,6 @@ namespace fiap_store.Controllers
         [HttpPost]
         public async Task<IActionResult> Autenticar([FromBody] LoginRequest loginRequest)
         {
-
             Cliente cliente = await _tokenService.VerifyLogin(loginRequest.CPF);
             if (cliente == null)
                 return NotFound(new { mensagem = "Usuário não cadastrado." });

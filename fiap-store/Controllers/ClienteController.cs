@@ -30,16 +30,17 @@ namespace fiap_store.Controllers
         }
 
         // GET api/<ClienteController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{idCliente}")]
         [Authorize]
         public async Task<IActionResult> GetById(int idCliente)
         {
             var userIdClaim = User.FindFirst("IdCliente");
+
             if (userIdClaim == null || userIdClaim.Value != idCliente.ToString())
-            {
                 return Forbid();
-            }
+            
             Cliente cliente = await _clienteService.GetById(idCliente);
+
             return Ok(cliente.ToClienteResponse());
         }
 
@@ -49,9 +50,11 @@ namespace fiap_store.Controllers
         {
             if (await ExistsClient(cliente.CPF))
                 return BadRequest(new { erro = "CPF já cadastrado." });
+
             var clienteDomain = cliente.ToClienteDomain();
             
             var id = await _clienteService.Cadastrar(clienteDomain);
+
             var mensagem = $"Cliente cadastrado com sucesso! | Id: {id} | Nome: {cliente.Nome}";
             return Ok(mensagem);
         }
@@ -62,12 +65,14 @@ namespace fiap_store.Controllers
         public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco, int idCliente)
         {
             var userIdClaim = User.FindFirst("IdCliente");
+
             if (userIdClaim == null || userIdClaim.Value != idCliente.ToString())
-            {
                 return Forbid();
-            }
+            
             await _clienteService.AdicionarEndereco(idCliente, endereco);
+
             var mensagem = $"Endereço adicionado com sucesso! | IdCliente: {idCliente}";
+
             return Ok(mensagem);
         }
 

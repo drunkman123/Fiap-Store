@@ -14,7 +14,7 @@ namespace Application.DTO
         public string CPF { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
-        public DateTime DataNasc { get; set; }
+        public DateOnly DataNascimento { get; set; }
         public string Permissao { get; set; }
         public ICollection<Endereco> Endereco { get; set; }
 

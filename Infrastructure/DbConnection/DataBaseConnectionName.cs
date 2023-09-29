@@ -1,4 +1,4 @@
-﻿namespace fiap_store.Infraestructure
+﻿namespace Infrastructure.DbConnection
 {
     public enum DatabaseConnectionName
     {

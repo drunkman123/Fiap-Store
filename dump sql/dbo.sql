@@ -12,7 +12,7 @@
  Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 29/09/2023 11:44:03
+ Date: 29/09/2023 17:41:55
 */
 
 
@@ -31,7 +31,7 @@ CREATE TABLE [dbo].[Cliente] (
   [Email] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [Password] nvarchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [IdPermissao] tinyint  NOT NULL,
-  [Data_Nascimento] date  NOT NULL
+  [DataNascimento] date  NOT NULL
 )
 GO
 
@@ -80,6 +80,25 @@ CREATE TABLE [dbo].[Item] (
 GO
 
 ALTER TABLE [dbo].[Item] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Table structure for LogErro
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[LogErro]') AND type IN ('U'))
+	DROP TABLE [dbo].[LogErro]
+GO
+
+CREATE TABLE [dbo].[LogErro] (
+  [IdLog] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Message] varchar(max) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [StackTrace] varchar(max) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [TimeStamp] bigint  NULL
+)
+GO
+
+ALTER TABLE [dbo].[LogErro] SET (LOCK_ESCALATION = TABLE)
 GO
 
 
@@ -158,7 +177,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Cliente
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 11)
+DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 13)
 GO
 
 
@@ -183,7 +202,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Endereco
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 10)
+DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 12)
 GO
 
 
@@ -207,6 +226,15 @@ GO
 -- Primary Key structure for table Item
 -- ----------------------------
 ALTER TABLE [dbo].[Item] ADD CONSTRAINT [PK__Item__51E84262A7C86674] PRIMARY KEY CLUSTERED ([IdItem])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table LogErro
+-- ----------------------------
+ALTER TABLE [dbo].[LogErro] ADD CONSTRAINT [PK__LogErro__0C54DBC651FBC885] PRIMARY KEY CLUSTERED ([IdLog])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO

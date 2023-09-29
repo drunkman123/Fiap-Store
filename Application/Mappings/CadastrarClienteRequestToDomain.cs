@@ -17,7 +17,7 @@ namespace Application.Mappings
                                             cadastrarClienteRequest.Telefone, 
                                             cadastrarClienteRequest.Email,
                                             cadastrarClienteRequest.Password,
-                                            cadastrarClienteRequest.DataNasc,
+                                            cadastrarClienteRequest.DataNascimento,
                                             cadastrarClienteRequest.Endereco) ;
             //cliente.Endereco = new List<Endereco>();
             //cliente.Nome = cadastrarClienteRequest.Nome;
