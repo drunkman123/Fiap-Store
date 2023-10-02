@@ -12,7 +12,7 @@
  Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 29/09/2023 17:41:55
+ Date: 02/10/2023 18:02:53
 */
 
 
@@ -149,7 +149,8 @@ CREATE TABLE [dbo].[Produto] (
   [IdProduto] int  IDENTITY(1,1) NOT NULL,
   [Nome] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Preco] decimal(18)  NULL,
-  [Descricao] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL
+  [Descricao] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
+  [IdTipoProduto] int  NULL
 )
 GO
 
@@ -165,8 +166,8 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Ti
 GO
 
 CREATE TABLE [dbo].[TipoProduto] (
-  [IdTipoProduto] int  IDENTITY(1,1) NOT NULL,
-  [TipoProduto] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+  [Id] int  IDENTITY(1,1) NOT NULL,
+  [Tipo] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
 )
 GO
 
@@ -275,7 +276,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Produto
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 2)
 GO
 
 
@@ -291,14 +292,14 @@ GO
 -- ----------------------------
 -- Auto increment value for TipoProduto
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[TipoProduto]', RESEED, 1)
+DBCC CHECKIDENT ('[dbo].[TipoProduto]', RESEED, 4)
 GO
 
 
 -- ----------------------------
 -- Primary Key structure for table TipoProduto
 -- ----------------------------
-ALTER TABLE [dbo].[TipoProduto] ADD CONSTRAINT [PK__TipoProd__F71CDF6118F6A073] PRIMARY KEY CLUSTERED ([IdTipoProduto])
+ALTER TABLE [dbo].[TipoProduto] ADD CONSTRAINT [PK__TipoProd__F71CDF6118F6A073] PRIMARY KEY CLUSTERED ([Id])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
 ON [PRIMARY]
 GO
@@ -332,5 +333,12 @@ GO
 -- Foreign Keys structure for table Pedido
 -- ----------------------------
 ALTER TABLE [dbo].[Pedido] ADD CONSTRAINT [PK_IdClientePedido] FOREIGN KEY ([IdCliente]) REFERENCES [dbo].[Cliente] ([IdCliente]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table Produto
+-- ----------------------------
+ALTER TABLE [dbo].[Produto] ADD CONSTRAINT [FK_IDTIPOPRODUTO] FOREIGN KEY ([IdTipoProduto]) REFERENCES [dbo].[TipoProduto] ([Id]) ON DELETE NO ACTION ON UPDATE NO ACTION
 GO
 

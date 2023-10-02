@@ -81,7 +81,17 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public IList<Pedido> ObterTodos()
+        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(IEnumerable<Item> items)
+        {
+            var idProdutos = items.Select(x => x.IdProduto).AsEnumerable();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string query = "SELECT IdProduto, Preco FROM dbo.Produto WHERE IdProduto IN @IdsProdutos";
+            return await connection.QueryAsync<Item>(query, new { IdsProdutos = idProdutos });
+
+
+        }
+
+        public Task<IEnumerable<Pedido>> ObterTodos()
         {
             throw new NotImplementedException();
         }

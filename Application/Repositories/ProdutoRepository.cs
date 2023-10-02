@@ -27,9 +27,9 @@ namespace Application.Repositories
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string insertQuery = @"
-                INSERT INTO dbo.Produto (IdTipo, Nome, Preco, Descricao) 
-                OUTPUT INSERTED.[Id]
-                VALUES (@IdTipo, @Nome, @Preco, @Descricao);";
+                INSERT INTO dbo.Produto (IdTipoProduto, Nome, Preco, Descricao) 
+                OUTPUT INSERTED.[IdProduto]
+                VALUES (@IdTipoProduto, @Nome, @Preco, @Descricao);";
             return connection.QuerySingle<int>(insertQuery, produto);
         }
 
@@ -37,8 +37,8 @@ namespace Application.Repositories
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string insertQuery = @"
-                INSERT INTO dbo.TipoProduto (TipoProduto) 
-                OUTPUT INSERTED.[IdTipoProduto]
+                INSERT INTO dbo.TipoProduto (Tipo) 
+                OUTPUT INSERTED.[Id]
                 VALUES (@Tipo);";
             return connection.QuerySingle<int>(insertQuery, new { Tipo = tipoProduto });
         }
@@ -58,9 +58,23 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public IList<Produto> ObterTodos()
+        public async Task<IEnumerable<Produto>> ObterTodos()
         {
-            throw new NotImplementedException();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string getQuery = @"
+                                SELECT IdProduto, Nome, Preco, IdTipoProduto, Descricao
+                                FROM dbo.Produto";
+            return await connection.QueryAsync<Produto>(getQuery);
         }
+
+        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos()
+        {
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string getQuery = @"
+                                SELECT Id, Tipo
+                                FROM dbo.TipoProduto";
+            return await connection.QueryAsync<TipoProduto>(getQuery);
+        }
+
     }
 }

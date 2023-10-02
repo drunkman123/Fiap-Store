@@ -42,9 +42,14 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public IList<Produto> ObterTodos()
+        public async Task<IEnumerable<Produto>> ObterTodos()
         {
-            throw new NotImplementedException();
+            return await _produtoRepository.ObterTodos();
+        }
+
+        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos()
+        {
+            return await _produtoRepository.ObterTodosTiposProdutos();
         }
     }
 }

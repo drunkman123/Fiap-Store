@@ -1,4 +1,7 @@
-﻿using Application.Interfaces;
+﻿using Application.DTO;
+using Application.Interfaces;
+using Application.Mappings;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -31,8 +34,16 @@ namespace fiap_store.Controllers
 
         // POST api/<PedidoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> GerarPedido([FromBody] GerarPedidoRequest gerarPedido)
         {
+            var userIdClaim = User.FindFirst("IdCliente");
+            if (userIdClaim == null || userIdClaim.Value != gerarPedido.IdCliente.ToString())
+                return Forbid();
+            IEnumerable<Item> items = gerarPedido.ToItemDomain();
+            var order = gerarPedido.ToPedidoDomain();
+            var precoProdutos = await _pedidoService.GetPrecosProdutosPedidos(items);
+            return Ok("teste");
+
         }
 
         // PUT api/<PedidoController>/5

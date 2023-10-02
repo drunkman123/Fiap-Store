@@ -130,9 +130,10 @@ namespace Application.Repositories
             //return connection.Query<Cliente>(query, new { IdCliente = idCliente }).FirstOrDefault()!;
         }
 
-        public IList<Cliente> ObterTodos()
+        public Task<IEnumerable<Cliente>> ObterTodos()
         {
             throw new NotImplementedException();
         }
+
     }
 }

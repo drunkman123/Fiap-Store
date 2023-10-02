@@ -10,6 +10,13 @@ namespace Application.Services
 {
     public class PedidoService : IPedidoService
     {
+
+        private readonly IPedidoRepository _pedidoRepository;
+
+        public PedidoService(IPedidoRepository pedidoRepository)
+        {
+            _pedidoRepository = pedidoRepository;
+        }
         public void Alterar(Pedido entidade)
         {
             throw new NotImplementedException();
@@ -35,7 +42,12 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public IList<Pedido> ObterTodos()
+        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(IEnumerable<Item> items)
+        {
+            return await _pedidoRepository.GetPrecosProdutosPedidos(items);
+        }
+
+        public Task<IEnumerable<Pedido>> ObterTodos()
         {
             throw new NotImplementedException();
         }

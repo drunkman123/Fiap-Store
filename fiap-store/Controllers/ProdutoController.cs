@@ -1,7 +1,10 @@
 ﻿using Application.DTO;
 using Application.Interfaces;
+using Application.Mappings;
 using Application.Services;
+using Domain.Enum;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,22 +23,24 @@ namespace fiap_store.Controllers
         }
         // GET: api/<PagamentoController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<Produto>> ObterTodosProdutos()
         {
-            return new string[] { "value1", "value2" };
+            return await _produtoService.ObterTodos();
         }
 
         // GET api/<PagamentoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet()]
+        public async Task<IEnumerable<TipoProduto>> GetTiposProduto()
         {
-            return "value";
+            return await _produtoService.ObterTodosTiposProdutos();
         }
 
         // POST api/<PagamentoController>
         [HttpPost]
-        public async Task<IActionResult> Cadastrar([FromBody] Produto produto)
+        [Authorize(Roles = Permissoes.Administrador)]
+        public async Task<IActionResult> Cadastrar([FromBody] CadastrarProdutoRequest produtoRequest)
         {
+            var produto = produtoRequest.ToProdutoDomain();
             var id = await _produtoService.Cadastrar(produto);
             var mensagem = $"Produto criado com sucesso! | Id: {id} | Nome: {produto.Nome}";
             return Ok(mensagem);
@@ -43,9 +48,10 @@ namespace fiap_store.Controllers
 
         // POST api/<PagamentoController>
         [HttpPost]
-        public async Task<IActionResult> CadastrarTipoProduto([FromBody] TipoProduto tipoProduto)
+        [Authorize(Roles = Permissoes.Administrador)]
+        public async Task<IActionResult> CadastrarTipoProduto([FromBody] CadastrarTipoProdutoRequest tipoProduto)
         {
-            var id = await _produtoService.CadastrarTipoProduto(tipoProduto.Tipo);
+            var id = await _produtoService.CadastrarTipoProduto(tipoProduto.Tipo.ToUpper());
             var mensagem = $"Tipo de Produto criado com sucesso! | Id: {id} | Nome: {tipoProduto.Tipo}";
             return Ok(mensagem);
         }

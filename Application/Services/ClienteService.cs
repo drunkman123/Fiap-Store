@@ -48,7 +48,7 @@ namespace Application.Services
             return await _clienteRepository.GetById(id);
         }
 
-        public IList<Cliente> ObterTodos()
+        public Task<IEnumerable<Cliente>> ObterTodos()
         {
             throw new NotImplementedException();
         }

@@ -26,7 +26,6 @@ namespace Infrastructure.Logging
             {
                 string insertLogErro = @"
             INSERT INTO dbo.LogErro (IdLog, Message, StackTrace, TimeStamp) 
-            OUTPUT INSERTED.[IdLog]
             VALUES (@IdLog, @Message, @StackTrace, @TimeStamp);";
 
                 connection.Execute(insertLogErro, logErro, transaction);
