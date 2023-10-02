@@ -7,3 +7,9 @@ Infrastructure/bin
 Infrastructure/obj
 fiap-store/bin
 fiap-store/obj
+WebUI/node_modules
+WebUI/public/build
+WebUI/build
+WebUI/.cache
+.vscode
+WebUI/package-lock.json
