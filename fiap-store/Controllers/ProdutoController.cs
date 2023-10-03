@@ -21,21 +21,18 @@ namespace fiap_store.Controllers
         {
             _produtoService = produtoService;
         }
-        // GET: api/<PagamentoController>
         [HttpGet]
         public async Task<IEnumerable<Produto>> ObterTodosProdutos()
         {
             return await _produtoService.ObterTodos();
         }
 
-        // GET api/<PagamentoController>/5
         [HttpGet()]
         public async Task<IEnumerable<TipoProduto>> GetTiposProduto()
         {
             return await _produtoService.ObterTodosTiposProdutos();
         }
 
-        // POST api/<PagamentoController>
         [HttpPost]
         [Authorize(Roles = Permissoes.Administrador)]
         public async Task<IActionResult> Cadastrar([FromBody] CadastrarProdutoRequest produtoRequest)
@@ -46,7 +43,6 @@ namespace fiap_store.Controllers
             return Ok(mensagem);
         }
 
-        // POST api/<PagamentoController>
         [HttpPost]
         [Authorize(Roles = Permissoes.Administrador)]
         public async Task<IActionResult> CadastrarTipoProduto([FromBody] CadastrarTipoProdutoRequest tipoProduto)
@@ -54,18 +50,6 @@ namespace fiap_store.Controllers
             var id = await _produtoService.CadastrarTipoProduto(tipoProduto.Tipo.ToUpper());
             var mensagem = $"Tipo de Produto criado com sucesso! | Id: {id} | Nome: {tipoProduto.Tipo}";
             return Ok(mensagem);
-        }
-
-        // PUT api/<PagamentoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PagamentoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

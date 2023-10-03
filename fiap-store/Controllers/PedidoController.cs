@@ -1,7 +1,9 @@
 ﻿using Application.DTO;
 using Application.Interfaces;
 using Application.Mappings;
+using Domain.Enum;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,44 +20,24 @@ namespace fiap_store.Controllers
         {
             _pedidoService = pedidoService;
         }
-        // GET: api/<PedidoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<PedidoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/<PedidoController>
         [HttpPost]
+        //[Authorize]
         public async Task<IActionResult> GerarPedido([FromBody] GerarPedidoRequest gerarPedido)
         {
-            var userIdClaim = User.FindFirst("IdCliente");
-            if (userIdClaim == null || userIdClaim.Value != gerarPedido.IdCliente.ToString())
-                return Forbid();
-            IEnumerable<Item> items = gerarPedido.ToItemDomain();
-            var order = gerarPedido.ToPedidoDomain();
-            var precoProdutos = await _pedidoService.GetPrecosProdutosPedidos(items);
-            return Ok("teste");
+            //var userIdClaim = User.FindFirst("IdCliente");
+            //if (userIdClaim == null || userIdClaim.Value != gerarPedido.IdCliente.ToString())
+            //    return Forbid();
+            var pedido = gerarPedido.ToPedidoDomain();
 
-        }
+            var idPedido = await _pedidoService.Cadastrar(pedido);
 
-        // PUT api/<PedidoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            var mensagem = $"Pedido cadastrado com sucesso! | Id: {idPedido}";
 
-        // DELETE api/<PedidoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+
+            return Ok(mensagem);
+
         }
     }
 }

@@ -12,5 +12,7 @@ namespace Domain.Models
         public int IdCliente { get; set; }
         public DateTime DataPedido { get; set; }
         public decimal ValorTotal { get; set; }
+        public bool Pago { get; set; } = false;
+        public List<Item> Items { get; set; }
     }
 }

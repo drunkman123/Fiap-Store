@@ -23,9 +23,37 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<int> Cadastrar(Pedido entidade)
+        public async Task<int> Cadastrar(Pedido pedido)
         {
-            throw new NotImplementedException();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            using var transaction = connection.BeginTransaction();
+            try
+            {
+                string insertPedidoQuery = @"
+                INSERT INTO dbo.Pedido (IdCliente, DataPedido, ValorTotal, Pago) 
+                OUTPUT INSERTED.[IdPedido]
+                VALUES (@IdCliente, @DataPedido, @ValorTotal, @Pago);";
+                int idPedido = connection.QuerySingle<int>(insertPedidoQuery, pedido, transaction);
+                
+                string insertItemQuery = @"
+                INSERT INTO dbo.Item (IdPedido, IdProduto, Quantidade, Preco, SubTotal) 
+                VALUES (@IdPedido, @IdProduto, @Quantidade, @Preco, @SubTotal);";
+                foreach (var item in pedido.Items)
+                {
+                    item.IdPedido = idPedido;
+
+                    connection.Execute(insertItemQuery, item, transaction);
+                }
+
+                transaction.Commit();
+                
+                return idPedido;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public void Deletar(int id)
@@ -81,13 +109,12 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(IEnumerable<Item> items)
+        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items)
         {
             var idProdutos = items.Select(x => x.IdProduto).AsEnumerable();
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string query = "SELECT IdProduto, Preco FROM dbo.Produto WHERE IdProduto IN @IdsProdutos";
             return await connection.QueryAsync<Item>(query, new { IdsProdutos = idProdutos });
-
 
         }
 

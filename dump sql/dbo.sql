@@ -12,7 +12,7 @@
  Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 02/10/2023 18:02:53
+ Date: 03/10/2023 18:00:21
 */
 
 
@@ -74,8 +74,8 @@ CREATE TABLE [dbo].[Item] (
   [IdPedido] int  NULL,
   [IdProduto] int  NULL,
   [Quantidade] int  NULL,
-  [Preco] decimal(18)  NULL,
-  [SubTotal] decimal(18)  NULL
+  [Preco] decimal(18,2)  NULL,
+  [SubTotal] decimal(18,2)  NULL
 )
 GO
 
@@ -112,8 +112,9 @@ GO
 CREATE TABLE [dbo].[Pedido] (
   [IdPedido] int  IDENTITY(1,1) NOT NULL,
   [IdCliente] int  NULL,
-  [DataPedido] date  NULL,
-  [ValorTotal] decimal(18)  NULL
+  [DataPedido] datetime  NULL,
+  [ValorTotal] decimal(18,2)  NULL,
+  [Pago] bit  NULL
 )
 GO
 
@@ -148,7 +149,7 @@ GO
 CREATE TABLE [dbo].[Produto] (
   [IdProduto] int  IDENTITY(1,1) NOT NULL,
   [Nome] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
-  [Preco] decimal(18)  NULL,
+  [Preco] decimal(18,2)  NULL,
   [Descricao] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [IdTipoProduto] int  NULL
 )
@@ -178,7 +179,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Cliente
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 13)
+DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 14)
 GO
 
 
@@ -203,7 +204,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Endereco
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 12)
+DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 13)
 GO
 
 
@@ -219,9 +220,6 @@ GO
 -- ----------------------------
 -- Auto increment value for Item
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Item]', RESEED, 1)
-GO
-
 
 -- ----------------------------
 -- Primary Key structure for table Item
@@ -244,9 +242,6 @@ GO
 -- ----------------------------
 -- Auto increment value for Pedido
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Pedido]', RESEED, 1)
-GO
-
 
 -- ----------------------------
 -- Primary Key structure for table Pedido
@@ -276,7 +271,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Produto
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 2)
+DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 4)
 GO
 
 

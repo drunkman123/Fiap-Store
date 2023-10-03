@@ -15,7 +15,17 @@ namespace Application.Mappings
             Pedido pedido = new Pedido();
             pedido.IdCliente = gerarPedidoRequest.IdCliente;
             pedido.DataPedido = DateTime.Now;
-            
+            pedido.Items = new List<Item>();
+
+            foreach (var item in gerarPedidoRequest.IdProdutoXQuantidade)
+            {
+                Item itemToAdd = new Item();
+                itemToAdd.IdProduto = item.IdProduto;
+                itemToAdd.Quantidade = item.Quantidade;
+                pedido.Items.Add(itemToAdd);
+            }
+
+
             return pedido;
 
         }

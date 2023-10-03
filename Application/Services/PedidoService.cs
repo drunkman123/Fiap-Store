@@ -22,17 +22,16 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> Cadastrar(Pedido entidade)
+        public async Task<int> Cadastrar(Pedido pedido)
         {
-            throw new NotImplementedException();
+            pedido.Items = (List<Item>)await GetPrecosProdutosPedidos(pedido.Items);
+
+            CalculateOrderTotal(pedido, pedido.Items);
+
+            return await _pedidoRepository.Cadastrar(pedido);
         }
 
         public void Deletar(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Exists(Pedido cliente)
         {
             throw new NotImplementedException();
         }
@@ -42,14 +41,30 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(IEnumerable<Item> items)
+        private async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items)
         {
-            return await _pedidoRepository.GetPrecosProdutosPedidos(items);
+            var precosProdutos = await _pedidoRepository.GetPrecosProdutosPedidos(items);
+            var contador = 0;
+            foreach(var item in precosProdutos)
+            {
+                items[contador].Preco = item.Preco;
+                items[contador].SubTotal = item.Preco* items[contador].Quantidade;
+                contador++;
+            }
+                
+                    
+            return items;
         }
 
         public Task<IEnumerable<Pedido>> ObterTodos()
         {
             throw new NotImplementedException();
+        }
+
+        private void CalculateOrderTotal(Pedido pedido, List<Item> items)
+        {
+            var valorTotalPedido = items.Sum(x => x.SubTotal);
+            pedido.ValorTotal = valorTotalPedido;
         }
     }
 }
