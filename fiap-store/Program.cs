@@ -117,6 +117,10 @@ app.UseMiddleware<ValidationExceptionMiddleware>();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseCors(options => options
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .SetIsOriginAllowed((x) => true));
 
 app.MapControllers();
 

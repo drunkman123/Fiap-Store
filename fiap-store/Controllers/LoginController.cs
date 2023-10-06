@@ -32,6 +32,7 @@ namespace fiap_store.Controllers
             return Ok(new
             {
                 Usuario = cliente.CPF,
+                Name = cliente.Nome,
                 Token = token
             });
         }
