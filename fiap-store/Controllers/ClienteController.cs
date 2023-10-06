@@ -6,6 +6,7 @@ using Application.DTO;
 using Application.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,9 +25,12 @@ namespace fiap_store.Controllers
 
         // GET: api/<ClienteController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = Permissoes.Administrador)]
+        public async Task<IActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Cliente> cliente = await _clienteService.ObterTodos();
+            var Clientes = cliente.ToAllClientsResponse();
+            return Ok(Clientes);
         }
 
         // GET api/<ClienteController>/5
@@ -60,7 +64,7 @@ namespace fiap_store.Controllers
         }
 
         // POST api/<ClienteController>
-        [HttpPost("{clienteId}")]
+        [HttpPost("{idCliente}")]
         [Authorize]
         public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco, int idCliente)
         {

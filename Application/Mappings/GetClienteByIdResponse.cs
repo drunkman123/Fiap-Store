@@ -4,11 +4,12 @@ using System;
 
 namespace Application.Mappings
 {
-    public static class ClienteDomainToResponse
+    public static class GetClienteByIdResponse
     {
         public static GetClienteResponse ToClienteResponse(this Cliente clienteDomain)
         {
             GetClienteResponse clienteResponse = new GetClienteResponse();
+            clienteResponse.Id = clienteDomain.IdCliente;
             clienteResponse.Nome = clienteDomain.Nome;
             clienteResponse.CPF = clienteDomain.CPF;
             clienteResponse.Telefone = clienteDomain.Telefone;

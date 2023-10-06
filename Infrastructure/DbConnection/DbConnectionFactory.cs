@@ -19,9 +19,7 @@ namespace Infrastructure.DbConnection
             var connection = new SqlConnection(connectionString);
 
             if (connection.State != ConnectionState.Open)
-            {
                 await connection.OpenAsync();
-            }
 
             return connection;
 

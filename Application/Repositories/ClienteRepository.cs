@@ -130,10 +130,53 @@ namespace Application.Repositories
             //return connection.Query<Cliente>(query, new { IdCliente = idCliente }).FirstOrDefault()!;
         }
 
-        public Task<IEnumerable<Cliente>> ObterTodos()
+        public async Task<IEnumerable<Cliente>> ObterTodos()
         {
-            throw new NotImplementedException();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string selectQuery = @"
+                                    SELECT
+                                        c.IdCliente,
+                                        c.Nome,
+                                        c.CPF,
+                                        c.Telefone,
+                                        c.Email,
+                                        c.IdPermissao,
+                                        c.DataNascimento,
+                                        e.IdEndereco,
+                                        e.Rua,
+                                        e.Numero,
+                                        e.Bairro,
+                                        e.Cidade,
+                                        e.Complemento,
+                                        e.CEP
+                                    FROM dbo.Cliente c
+                                    LEFT JOIN Endereco e ON c.IdCliente = e.IdCliente;";
+
+            var ClienteDictionary = new Dictionary<int, Cliente>();
+
+            var results = connection.Query<Cliente, Endereco, Cliente>(
+                    selectQuery,
+                    (c, e) =>
+                    {
+                        if (!ClienteDictionary.TryGetValue(c.IdCliente, out var cliente))
+                        {
+                            cliente = c;
+                            cliente.Endereco = new List<Endereco>();
+                            ClienteDictionary.Add(c.IdCliente, cliente);
+                        }
+
+                        if (e != null)
+                        {
+                            cliente.Endereco.Add(e);
+                        }
+
+                        return cliente;
+                    },
+                    splitOn: "IdEndereco");
+
+            return ClienteDictionary.Values;
         }
 
     }
 }
+
