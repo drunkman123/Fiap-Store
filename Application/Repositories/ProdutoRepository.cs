@@ -26,11 +26,27 @@ namespace Application.Repositories
         public async Task<int> Cadastrar(Produto produto)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
-            string insertQuery = @"
+            using var transaction = connection.BeginTransaction();
+            try
+            {
+                string insertProdutoQuery = @"
                 INSERT INTO dbo.Produto (IdTipoProduto, Nome, Preco, Descricao) 
                 OUTPUT INSERTED.[IdProduto]
                 VALUES (@IdTipoProduto, @Nome, @Preco, @Descricao);";
-            return connection.QuerySingle<int>(insertQuery, produto);
+                int idProduto = connection.QuerySingle<int>(insertProdutoQuery, produto, transaction);
+
+                string insertEstoqueQuery = @"
+                INSERT INTO dbo.Estoque (IdProduto, Qtde) 
+                VALUES (@IdProduto, @Qtde);";
+                connection.Execute(insertEstoqueQuery, new { IdProduto = idProduto,Qtde = produto.Quantidade }, transaction);
+                transaction.Commit();
+                return idProduto;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public async Task<int> CadastrarTipoProduto(string tipoProduto)
@@ -41,6 +57,7 @@ namespace Application.Repositories
                 OUTPUT INSERTED.[Id]
                 VALUES (@Tipo);";
             return connection.QuerySingle<int>(insertQuery, new { Tipo = tipoProduto });
+            
         }
 
         public void Deletar(int id)
@@ -62,8 +79,16 @@ namespace Application.Repositories
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string getQuery = @"
-                                SELECT IdProduto, Nome, Preco, IdTipoProduto, Descricao
-                                FROM dbo.Produto";
+                                SELECT
+	                                p.IdProduto,
+	                                p.Nome,
+	                                p.Preco,
+	                                p.IdTipoProduto,
+	                                p.Descricao,
+	                                e.Qtde as Quantidade
+                                FROM
+	                                dbo.Produto p
+	                                INNER JOIN Estoque e ON p.IdProduto = e.IdProduto";
             return await connection.QueryAsync<Produto>(getQuery);
         }
 

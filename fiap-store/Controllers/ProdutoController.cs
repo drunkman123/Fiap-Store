@@ -34,7 +34,7 @@ namespace fiap_store.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Permissoes.Administrador)]
+        //[Authorize(Roles = Permissoes.Administrador)]
         public async Task<IActionResult> Cadastrar([FromBody] CadastrarProdutoRequest produtoRequest)
         {
             var produto = produtoRequest.ToProdutoDomain();
@@ -44,7 +44,7 @@ namespace fiap_store.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Permissoes.Administrador)]
+        //[Authorize(Roles = Permissoes.Administrador)]
         public async Task<IActionResult> CadastrarTipoProduto([FromBody] CadastrarTipoProdutoRequest tipoProduto)
         {
             var id = await _produtoService.CadastrarTipoProduto(tipoProduto.Tipo.ToUpper());

@@ -18,6 +18,7 @@ namespace Application.Mappings
             produto.Descricao = cadastrarProdutoRequest.Descricao;
             produto.IdTipoProduto = cadastrarProdutoRequest.IdTipoProduto;
             produto.Preco = cadastrarProdutoRequest.Preco;
+            produto.Quantidade = cadastrarProdutoRequest.Quantidade;
 
             return produto;
 

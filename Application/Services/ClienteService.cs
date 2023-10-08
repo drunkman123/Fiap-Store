@@ -43,9 +43,9 @@ namespace Application.Services
             return await _clienteRepository.ExistsClient(cpf);
         }
 
-        public async Task<Cliente> GetById(int id)
+        public async Task<Cliente> Get(int id)
         {
-            return await _clienteRepository.GetById(id);
+            return await _clienteRepository.Get(id);
         }
 
         public async Task<IEnumerable<Cliente>> ObterTodos()

@@ -3,10 +3,8 @@ using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Application.Mappings;
 using Application.DTO;
-using Application.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Domain.Enum;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,14 +34,14 @@ namespace fiap_store.Controllers
         // GET api/<ClienteController>/5
         [HttpGet("{idCliente}")]
         [Authorize]
-        public async Task<IActionResult> GetById(int idCliente)
+        public async Task<IActionResult> Get()
         {
             var userIdClaim = User.FindFirst("IdCliente");
 
-            if (userIdClaim == null || userIdClaim.Value != idCliente.ToString())
+            if (userIdClaim == null)           
                 return Forbid();
             
-            Cliente cliente = await _clienteService.GetById(idCliente);
+            Cliente cliente = await _clienteService.Get(Convert.ToInt32(userIdClaim));
 
             return Ok(cliente.ToClienteResponse());
         }
@@ -64,18 +62,18 @@ namespace fiap_store.Controllers
         }
 
         // POST api/<ClienteController>
-        [HttpPost("{idCliente}")]
+        [HttpPost()]
         [Authorize]
-        public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco, int idCliente)
+        public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco)
         {
-            var userIdClaim = User.FindFirst("IdCliente");
+            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
 
-            if (userIdClaim == null || userIdClaim.Value != idCliente.ToString())
+            if (userIdClaim == null)
                 return Forbid();
             
-            await _clienteService.AdicionarEndereco(idCliente, endereco);
+            await _clienteService.AdicionarEndereco(userIdClaim, endereco);
 
-            var mensagem = $"Endereço adicionado com sucesso! | IdCliente: {idCliente}";
+            var mensagem = $"Endereço adicionado com sucesso! | IdCliente: {userIdClaim}";
 
             return Ok(mensagem);
         }

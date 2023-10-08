@@ -11,5 +11,7 @@ namespace Application.Interfaces
     {
         Task<bool> AdicionarEndereco(int clienteId,Endereco endereco);
         Task<bool> ExistsClient(string cpf);
+        Task<Cliente> Get(int id);
+
     }
 }

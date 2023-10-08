@@ -10,10 +10,10 @@ namespace Application.Mappings
 {
     public static class GerarPedidoRequestToPedidoDomain
     {
-        public static Pedido ToPedidoDomain(this GerarPedidoRequest gerarPedidoRequest)
+        public static Pedido ToPedidoDomain(this GerarPedidoRequest gerarPedidoRequest, int idCliente)
         {
             Pedido pedido = new Pedido();
-            pedido.IdCliente = gerarPedidoRequest.IdCliente;
+            pedido.IdCliente = idCliente;
             pedido.DataPedido = DateTime.Now;
             pedido.Items = new List<Item>();
 

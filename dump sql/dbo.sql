@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local
+ Source Server         : Conexão Local FiapStore
  Source Server Type    : SQL Server
- Source Server Version : 15002000
- Source Host           : 1302101L3149595\SQLEXPRESS:1433
+ Source Server Version : 16001000
+ Source Host           : localhost:1433
  Source Catalog        : fiapStore
  Source Schema         : dbo
 
  Target Server Type    : SQL Server
- Target Server Version : 15002000
+ Target Server Version : 16001000
  File Encoding         : 65001
 
- Date: 03/10/2023 18:00:21
+ Date: 07/10/2023 23:02:49
 */
 
 
@@ -40,6 +40,22 @@ GO
 
 
 -- ----------------------------
+-- Records of Cliente
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Cliente] ON
+GO
+
+INSERT INTO [dbo].[Cliente] ([IdCliente], [Nome], [CPF], [Telefone], [Email], [Password], [IdPermissao], [DataNascimento]) VALUES (N'15', N'teste um', N'11111111111', N'11111111111', N'string@yrdyr.com', N'$2a$11$.XEaDn8gHKeHNnDV6Z0ddOilgy0Z3nk7SByVyf9ZvQkfDaFBdyYbC', N'2', N'2000-10-06')
+GO
+
+INSERT INTO [dbo].[Cliente] ([IdCliente], [Nome], [CPF], [Telefone], [Email], [Password], [IdPermissao], [DataNascimento]) VALUES (N'16', N'teste dois', N'22222222222', N'11111111111', N'string@yrdyr.com', N'$2a$11$3GvDczGWU2RjTXyru3NjaOkhFb.GZKOkLhCHTLoJGIxq1FZ8aT6hu', N'2', N'2000-10-06')
+GO
+
+SET IDENTITY_INSERT [dbo].[Cliente] OFF
+GO
+
+
+-- ----------------------------
 -- Table structure for Endereco
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Endereco]') AND type IN ('U'))
@@ -59,6 +75,52 @@ CREATE TABLE [dbo].[Endereco] (
 GO
 
 ALTER TABLE [dbo].[Endereco] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of Endereco
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Endereco] ON
+GO
+
+INSERT INTO [dbo].[Endereco] ([IdEndereco], [Rua], [Bairro], [Cidade], [Numero], [Complemento], [CEP], [IdCliente]) VALUES (N'13', N'string', N'string', N'string', N'string', N'string', N'11111111', N'15')
+GO
+
+INSERT INTO [dbo].[Endereco] ([IdEndereco], [Rua], [Bairro], [Cidade], [Numero], [Complemento], [CEP], [IdCliente]) VALUES (N'14', N'string', N'string', N'string', N'string', N'string', N'11111111', N'16')
+GO
+
+INSERT INTO [dbo].[Endereco] ([IdEndereco], [Rua], [Bairro], [Cidade], [Numero], [Complemento], [CEP], [IdCliente]) VALUES (N'15', N'string', N'string', N'string', N'string', N'string', N'12123123', N'16')
+GO
+
+SET IDENTITY_INSERT [dbo].[Endereco] OFF
+GO
+
+
+-- ----------------------------
+-- Table structure for Estoque
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Estoque]') AND type IN ('U'))
+	DROP TABLE [dbo].[Estoque]
+GO
+
+CREATE TABLE [dbo].[Estoque] (
+  [IdProduto] int  NOT NULL,
+  [Qtde] int  NULL
+)
+GO
+
+ALTER TABLE [dbo].[Estoque] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of Estoque
+-- ----------------------------
+INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'5', N'4')
+GO
+
+INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'6', N'10')
 GO
 
 
@@ -84,6 +146,16 @@ GO
 
 
 -- ----------------------------
+-- Records of Item
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Item] ON
+GO
+
+SET IDENTITY_INSERT [dbo].[Item] OFF
+GO
+
+
+-- ----------------------------
 -- Table structure for LogErro
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[LogErro]') AND type IN ('U'))
@@ -99,6 +171,60 @@ CREATE TABLE [dbo].[LogErro] (
 GO
 
 ALTER TABLE [dbo].[LogErro] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of LogErro
+-- ----------------------------
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'4b22c6be-11cb-4182-a85e-d5c83a1b6a0c', N'The INSERT statement conflicted with the FOREIGN KEY constraint "FK_IDTIPOPRODUTO". The conflict occurred in database "fiapStore", table "dbo.TipoProduto", column ''Id''.', N'   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in /_/Dapper/SqlMapper.cs:line 1260
+   at Dapper.SqlMapper.QuerySingle[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 861
+   at Application.Repositories.ProdutoRepository.Cadastrar(Produto produto) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Repositories\ProdutoRepository.cs:line 36
+   at Application.Services.ProdutoService.Cadastrar(Produto produto) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Services\ProdutoService.cs:line 22
+   at fiap_store.Controllers.ProdutoController.Cadastrar(CadastrarProdutoRequest produtoRequest) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Controllers\ProdutoController.cs:line 41
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at ExceptionMiddleware.Invoke(HttpContext context) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1696720472')
+GO
+
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'54a20d88-1f4d-430c-9eb2-fa5617948db2', N'The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Permissao". The conflict occurred in database "fiapStore", table "dbo.Permissao", column ''IdPermissao''.', N'   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
+   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
+   at System.Data.SqlClient.SqlDataReader.Read()
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in /_/Dapper/SqlMapper.cs:line 1260
+   at Dapper.SqlMapper.QuerySingle[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 861
+   at Application.Repositories.ClienteRepository.Cadastrar(Cliente entidade) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Repositories\ClienteRepository.cs:line 49
+   at Application.Services.ClienteService.Cadastrar(Cliente entidade) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Services\ClienteService.cs:line 33
+   at fiap_store.Controllers.ClienteController.Cadastrar(CadastrarClienteRequest cliente) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Controllers\ClienteController.cs:line 56
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at ExceptionMiddleware.Invoke(HttpContext context) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1696626548')
 GO
 
 
@@ -123,6 +249,16 @@ GO
 
 
 -- ----------------------------
+-- Records of Pedido
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Pedido] ON
+GO
+
+SET IDENTITY_INSERT [dbo].[Pedido] OFF
+GO
+
+
+-- ----------------------------
 -- Table structure for Permissao
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[Permissao]') AND type IN ('U'))
@@ -136,6 +272,22 @@ CREATE TABLE [dbo].[Permissao] (
 GO
 
 ALTER TABLE [dbo].[Permissao] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of Permissao
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Permissao] ON
+GO
+
+INSERT INTO [dbo].[Permissao] ([IdPermissao], [Permissao]) VALUES (N'2', N'Administrador')
+GO
+
+INSERT INTO [dbo].[Permissao] ([IdPermissao], [Permissao]) VALUES (N'3', N'Cliente')
+GO
+
+SET IDENTITY_INSERT [dbo].[Permissao] OFF
 GO
 
 
@@ -160,6 +312,22 @@ GO
 
 
 -- ----------------------------
+-- Records of Produto
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[Produto] ON
+GO
+
+INSERT INTO [dbo].[Produto] ([IdProduto], [Nome], [Preco], [Descricao], [IdTipoProduto]) VALUES (N'5', N'calça leg', N'10.20', N'calça feia', N'4')
+GO
+
+INSERT INTO [dbo].[Produto] ([IdProduto], [Nome], [Preco], [Descricao], [IdTipoProduto]) VALUES (N'6', N'moletom', N'70.00', N'string', N'5')
+GO
+
+SET IDENTITY_INSERT [dbo].[Produto] OFF
+GO
+
+
+-- ----------------------------
 -- Table structure for TipoProduto
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[TipoProduto]') AND type IN ('U'))
@@ -177,9 +345,25 @@ GO
 
 
 -- ----------------------------
+-- Records of TipoProduto
+-- ----------------------------
+SET IDENTITY_INSERT [dbo].[TipoProduto] ON
+GO
+
+INSERT INTO [dbo].[TipoProduto] ([Id], [Tipo]) VALUES (N'4', N'Calças')
+GO
+
+INSERT INTO [dbo].[TipoProduto] ([Id], [Tipo]) VALUES (N'5', N'BLUSAS')
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoProduto] OFF
+GO
+
+
+-- ----------------------------
 -- Auto increment value for Cliente
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 14)
+DBCC CHECKIDENT ('[dbo].[Cliente]', RESEED, 16)
 GO
 
 
@@ -204,7 +388,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Endereco
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 13)
+DBCC CHECKIDENT ('[dbo].[Endereco]', RESEED, 15)
 GO
 
 
@@ -218,8 +402,20 @@ GO
 
 
 -- ----------------------------
+-- Primary Key structure for table Estoque
+-- ----------------------------
+ALTER TABLE [dbo].[Estoque] ADD CONSTRAINT [PK__Estoque__2E883C23B5AC6755] PRIMARY KEY CLUSTERED ([IdProduto])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
 -- Auto increment value for Item
 -- ----------------------------
+DBCC CHECKIDENT ('[dbo].[Item]', RESEED, 8)
+GO
+
 
 -- ----------------------------
 -- Primary Key structure for table Item
@@ -242,6 +438,9 @@ GO
 -- ----------------------------
 -- Auto increment value for Pedido
 -- ----------------------------
+DBCC CHECKIDENT ('[dbo].[Pedido]', RESEED, 4)
+GO
+
 
 -- ----------------------------
 -- Primary Key structure for table Pedido
@@ -255,7 +454,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Permissao
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Permissao]', RESEED, 2)
+DBCC CHECKIDENT ('[dbo].[Permissao]', RESEED, 3)
 GO
 
 
@@ -271,7 +470,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Produto
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 4)
+DBCC CHECKIDENT ('[dbo].[Produto]', RESEED, 6)
 GO
 
 
@@ -287,7 +486,7 @@ GO
 -- ----------------------------
 -- Auto increment value for TipoProduto
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[TipoProduto]', RESEED, 4)
+DBCC CHECKIDENT ('[dbo].[TipoProduto]', RESEED, 5)
 GO
 
 
@@ -311,6 +510,13 @@ GO
 -- Foreign Keys structure for table Endereco
 -- ----------------------------
 ALTER TABLE [dbo].[Endereco] ADD CONSTRAINT [PK_IdClienteEnd] FOREIGN KEY ([IdCliente]) REFERENCES [dbo].[Cliente] ([IdCliente]) ON DELETE CASCADE ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table Estoque
+-- ----------------------------
+ALTER TABLE [dbo].[Estoque] ADD CONSTRAINT [FK_IdProduto] FOREIGN KEY ([IdProduto]) REFERENCES [dbo].[Produto] ([IdProduto]) ON DELETE CASCADE ON UPDATE NO ACTION
 GO
 
 

@@ -1,8 +1,6 @@
 ﻿using Application.DTO;
 using Application.Interfaces;
 using Application.Mappings;
-using Domain.Enum;
-using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,18 +24,14 @@ namespace fiap_store.Controllers
         //[Authorize]
         public async Task<IActionResult> GerarPedido([FromBody] GerarPedidoRequest gerarPedido)
         {
-            //var userIdClaim = User.FindFirst("IdCliente");
-            //if (userIdClaim == null || userIdClaim.Value != gerarPedido.IdCliente.ToString())
-            //    return Forbid();
-            var pedido = gerarPedido.ToPedidoDomain();
+            //var pedido = gerarPedido.ToPedidoDomain(Convert.ToInt32(User.FindFirst("IdCliente")));
+            var pedido = gerarPedido.ToPedidoDomain(16);
 
             var idPedido = await _pedidoService.Cadastrar(pedido);
 
             var mensagem = $"Pedido cadastrado com sucesso! | Id: {idPedido}";
 
-
             return Ok(mensagem);
-
         }
     }
 }

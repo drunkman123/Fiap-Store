@@ -45,6 +45,15 @@ namespace Application.Repositories
                     connection.Execute(insertItemQuery, item, transaction);
                 }
 
+                string AlterarEstoqueQuery = @"
+                                                UPDATE dbo.Estoque
+                                                SET Qtde = Qtde - @qtde
+                                                WHERE IdProduto = @idProduto;";
+                foreach (var item in pedido.Items)
+                {
+                    connection.Execute(AlterarEstoqueQuery, new { qtde = item.Quantidade, idProduto = item.IdProduto}, transaction);
+                }
+
                 transaction.Commit();
                 
                 return idPedido;

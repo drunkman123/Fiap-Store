@@ -81,53 +81,7 @@ namespace Application.Repositories
 
         public async Task<Cliente> GetById(int idCliente)
         {
-            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
-            string selectQuery = @"
-                                    SELECT
-                                        c.IdCliente,
-                                        c.Nome,
-                                        c.CPF,
-                                        c.Telefone,
-                                        c.Email,
-                                        c.IdPermissao,
-                                        c.DataNascimento,
-                                        e.IdEndereco,
-                                        e.Rua,
-                                        e.Numero,
-                                        e.Bairro,
-                                        e.Cidade,
-                                        e.Complemento,
-                                        e.CEP
-                                    FROM dbo.Cliente c
-                                    LEFT JOIN Endereco e ON c.IdCliente = e.IdCliente
-                                    WHERE c.IdCliente = @IdCliente";
-
-            var ClienteDictionary = new Dictionary<int, Cliente>();
-
-            var clientes = connection.Query<Cliente, Endereco, Cliente>(
-                selectQuery,
-                (c, e) =>
-                {
-                    if (!ClienteDictionary.TryGetValue(c.IdCliente, out var cliente))
-                    {
-                        cliente = c;
-                        cliente.Endereco = new List<Endereco>();                        
-                        ClienteDictionary.Add(c.IdCliente, cliente);
-                    }
-
-                    if (e != null)
-                    {
-                        cliente.Endereco.Add(e);
-                    }
-
-                    return cliente;
-                }, new { IdCliente = idCliente },
-                splitOn: "IdEndereco"
-            ).ToList();
-            return ClienteDictionary.Values.FirstOrDefault()!;
-            //using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
-            //var query = "SELECT * FROM Cliente WHERE IdCliente = @IdCliente";
-            //return connection.Query<Cliente>(query, new { IdCliente = idCliente }).FirstOrDefault()!;
+            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Cliente>> ObterTodos()
@@ -176,7 +130,56 @@ namespace Application.Repositories
 
             return ClienteDictionary.Values;
         }
+        public async Task<Cliente> Get(int idCliente)
+        {
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string selectQuery = @"
+                                    SELECT
+                                        c.IdCliente,
+                                        c.Nome,
+                                        c.CPF,
+                                        c.Telefone,
+                                        c.Email,
+                                        c.IdPermissao,
+                                        c.DataNascimento,
+                                        e.IdEndereco,
+                                        e.Rua,
+                                        e.Numero,
+                                        e.Bairro,
+                                        e.Cidade,
+                                        e.Complemento,
+                                        e.CEP
+                                    FROM dbo.Cliente c
+                                    LEFT JOIN Endereco e ON c.IdCliente = e.IdCliente
+                                    WHERE c.IdCliente = @IdCliente";
 
+            var ClienteDictionary = new Dictionary<int, Cliente>();
+
+            var clientes = connection.Query<Cliente, Endereco, Cliente>(
+                selectQuery,
+                (c, e) =>
+                {
+                    if (!ClienteDictionary.TryGetValue(c.IdCliente, out var cliente))
+                    {
+                        cliente = c;
+                        cliente.Endereco = new List<Endereco>();
+                        ClienteDictionary.Add(c.IdCliente, cliente);
+                    }
+
+                    if (e != null)
+                    {
+                        cliente.Endereco.Add(e);
+                    }
+
+                    return cliente;
+                }, new { IdCliente = idCliente },
+                splitOn: "IdEndereco"
+            ).ToList();
+            return ClienteDictionary.Values.FirstOrDefault()!;
+            //using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            //var query = "SELECT * FROM Cliente WHERE IdCliente = @IdCliente";
+            //return connection.Query<Cliente>(query, new { IdCliente = idCliente }).FirstOrDefault()!;
+        }
     }
 }
 
