@@ -79,9 +79,15 @@ namespace fiap_store.Controllers
         }
 
         // PUT api/<ClienteController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut()]
+        [Authorize]
+        public async Task<IActionResult> Put([FromBody] AlterarClienteRequest dadosAlteracao)
         {
+            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
+            var cliente = dadosAlteracao.ToClienteDomain(userIdClaim);
+            _clienteService.Alterar(cliente);
+            return Ok();
+
         }
 
         // DELETE api/<ClienteController>/5

@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Conexão Local FiapStore
+ Source Server         : local
  Source Server Type    : SQL Server
- Source Server Version : 16001000
- Source Host           : localhost:1433
+ Source Server Version : 15002000
+ Source Host           : 1302101L3149595\SQLEXPRESS:1433
  Source Catalog        : fiapStore
  Source Schema         : dbo
 
  Target Server Type    : SQL Server
- Target Server Version : 16001000
+ Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 07/10/2023 23:02:49
+ Date: 11/10/2023 17:32:35
 */
 
 
@@ -48,7 +48,7 @@ GO
 INSERT INTO [dbo].[Cliente] ([IdCliente], [Nome], [CPF], [Telefone], [Email], [Password], [IdPermissao], [DataNascimento]) VALUES (N'15', N'teste um', N'11111111111', N'11111111111', N'string@yrdyr.com', N'$2a$11$.XEaDn8gHKeHNnDV6Z0ddOilgy0Z3nk7SByVyf9ZvQkfDaFBdyYbC', N'2', N'2000-10-06')
 GO
 
-INSERT INTO [dbo].[Cliente] ([IdCliente], [Nome], [CPF], [Telefone], [Email], [Password], [IdPermissao], [DataNascimento]) VALUES (N'16', N'teste dois', N'22222222222', N'11111111111', N'string@yrdyr.com', N'$2a$11$3GvDczGWU2RjTXyru3NjaOkhFb.GZKOkLhCHTLoJGIxq1FZ8aT6hu', N'2', N'2000-10-06')
+INSERT INTO [dbo].[Cliente] ([IdCliente], [Nome], [CPF], [Telefone], [Email], [Password], [IdPermissao], [DataNascimento]) VALUES (N'16', N'teste dois', N'22222222222', N'22222222222', N'teste@teste.com', N'$2a$11$wZ61aiEkMHUgAjaaZjjc9ObUQ/OrcVfFe6xv0x7O9hYKtGDmETtxi', N'2', N'2000-10-06')
 GO
 
 SET IDENTITY_INSERT [dbo].[Cliente] OFF
@@ -117,10 +117,10 @@ GO
 -- ----------------------------
 -- Records of Estoque
 -- ----------------------------
-INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'5', N'4')
+INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'5', N'8')
 GO
 
-INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'6', N'10')
+INSERT INTO [dbo].[Estoque] ([IdProduto], [Qtde]) VALUES (N'6', N'3')
 GO
 
 
@@ -151,6 +151,30 @@ GO
 SET IDENTITY_INSERT [dbo].[Item] ON
 GO
 
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'8', N'4', N'5', N'2', N'10.20', N'20.40')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'9', N'4', N'6', N'3', N'70.00', N'210.00')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'10', N'5', N'5', N'1', N'10.20', N'10.20')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'11', N'5', N'6', N'1', N'70.00', N'70.00')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'12', N'8', N'6', N'1', N'70.00', N'70.00')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'13', N'9', N'5', N'1', N'10.20', N'10.20')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'14', N'9', N'6', N'2', N'70.00', N'140.00')
+GO
+
+INSERT INTO [dbo].[Item] ([IdItem], [IdPedido], [IdProduto], [Quantidade], [Preco], [SubTotal]) VALUES (N'15', N'10', N'5', N'2', N'10.20', N'20.40')
+GO
+
 SET IDENTITY_INSERT [dbo].[Item] OFF
 GO
 
@@ -177,43 +201,32 @@ GO
 -- ----------------------------
 -- Records of LogErro
 -- ----------------------------
-INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'4b22c6be-11cb-4182-a85e-d5c83a1b6a0c', N'The INSERT statement conflicted with the FOREIGN KEY constraint "FK_IDTIPOPRODUTO". The conflict occurred in database "fiapStore", table "dbo.TipoProduto", column ''Id''.', N'   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
-   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
-   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
-   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
-   at System.Data.SqlClient.SqlDataReader.Read()
-   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in /_/Dapper/SqlMapper.cs:line 1260
-   at Dapper.SqlMapper.QuerySingle[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 861
-   at Application.Repositories.ProdutoRepository.Cadastrar(Produto produto) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Repositories\ProdutoRepository.cs:line 36
-   at Application.Services.ProdutoService.Cadastrar(Produto produto) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Services\ProdutoService.cs:line 22
-   at fiap_store.Controllers.ProdutoController.Cadastrar(CadastrarProdutoRequest produtoRequest) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Controllers\ProdutoController.cs:line 41
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'71351476-6d3a-4ab7-bec5-2f4e1a095450', N'Object reference not set to an instance of an object.', N'   at Application.Mappings.GerarPedidoRequestToPedidoDomain.ToPedidoDomain(GerarPedidoRequest gerarPedidoRequest, Int32 idCliente) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Mappings\GerarPedidoRequestToPedidoDomain.cs:line 23
+   at fiap_store.Controllers.PedidoController.GerarPedido(GerarPedidoRequest gerarPedido) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Controllers\PedidoController.cs:line 30
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
-   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
-   at ExceptionMiddleware.Invoke(HttpContext context) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1696720472')
+   at ExceptionMiddleware.Invoke(HttpContext context) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1697046570')
 GO
 
-INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'54a20d88-1f4d-430c-9eb2-fa5617948db2', N'The INSERT statement conflicted with the FOREIGN KEY constraint "FK_Permissao". The conflict occurred in database "fiapStore", table "dbo.Permissao", column ''IdPermissao''.', N'   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
-   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
-   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
-   at System.Data.SqlClient.SqlDataReader.TryHasMoreRows(Boolean& moreRows)
-   at System.Data.SqlClient.SqlDataReader.TryReadInternal(Boolean setTimeout, Boolean& more)
-   at System.Data.SqlClient.SqlDataReader.Read()
-   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in /_/Dapper/SqlMapper.cs:line 1260
-   at Dapper.SqlMapper.QuerySingle[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 861
-   at Application.Repositories.ClienteRepository.Cadastrar(Cliente entidade) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Repositories\ClienteRepository.cs:line 49
-   at Application.Services.ClienteService.Cadastrar(Cliente entidade) in E:\Git pessoal\PosTechFiap\fiap-store\Application\Services\ClienteService.cs:line 33
-   at fiap_store.Controllers.ClienteController.Cadastrar(CadastrarClienteRequest cliente) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Controllers\ClienteController.cs:line 56
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'8d66730e-b4c7-4294-97dc-d0899514a2c5', N'Multi-map error: splitOn column ''IdPedido'' was not found - please ensure your splitOn parameter is set and in the correct order (Parameter ''splitOn'')', N'   at Dapper.SqlMapper.GetNextSplit(Int32 startIdx, String splitOn, DbDataReader reader) in /_/Dapper/SqlMapper.cs:line 1788
+   at Dapper.SqlMapper.GenerateDeserializers(Identity identity, String splitOn, DbDataReader reader) in /_/Dapper/SqlMapper.cs:line 1733
+   at Dapper.SqlMapper.MultiMapImpl[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, CommandDefinition command, Delegate map, String splitOn, DbDataReader reader, Identity identity, Boolean finalize)+MoveNext() in /_/Dapper/SqlMapper.cs:line 1546
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.MultiMap[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, String sql, Delegate map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 1518
+   at Dapper.SqlMapper.Query[TFirst,TSecond,TThird,TReturn](IDbConnection cnn, String sql, Func`4 map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 1394
+   at Application.Repositories.PedidoRepository.ObterTodosPedidosById(Int32 id) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Repositories\PedidoRepository.cs:line 162
+   at Application.Services.PedidoService.ObterTodosById(Int32 id) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Services\PedidoService.cs:line 72
+   at fiap_store.Controllers.PedidoController.ObterTodosById() in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Controllers\PedidoController.cs:line 49
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
@@ -224,7 +237,59 @@ INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALU
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
-   at ExceptionMiddleware.Invoke(HttpContext context) in E:\Git pessoal\PosTechFiap\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1696626548')
+   at ExceptionMiddleware.Invoke(HttpContext context) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1697045529')
+GO
+
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'9b984b78-c624-47c5-93dc-193c5cae5eac', N'É necessário declarar a variável escalar "@IdProduto".', N'   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite, String method)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite, String methodName)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) in /_/Dapper/SqlMapper.cs:line 2928
+   at Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) in /_/Dapper/SqlMapper.cs:line 648
+   at Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 519
+   at Application.Repositories.PedidoRepository.Cadastrar(Pedido pedido) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Repositories\PedidoRepository.cs:line 47
+   at Application.Services.PedidoService.Cadastrar(Pedido pedido) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Services\PedidoService.cs:line 31
+   at fiap_store.Controllers.PedidoController.GerarPedido(GerarPedidoRequest gerarPedido) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Controllers\PedidoController.cs:line 32
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at ExceptionMiddleware.Invoke(HttpContext context) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1697046654')
+GO
+
+INSERT INTO [dbo].[LogErro] ([IdLog], [Message], [StackTrace], [TimeStamp]) VALUES (N'ae60d070-e558-43a5-bc15-31fcbdea7941', N'Multi-map error: splitOn column ''IdPedido'' was not found - please ensure your splitOn parameter is set and in the correct order (Parameter ''splitOn'')', N'   at Dapper.SqlMapper.GetNextSplit(Int32 startIdx, String splitOn, DbDataReader reader) in /_/Dapper/SqlMapper.cs:line 1788
+   at Dapper.SqlMapper.GenerateDeserializers(Identity identity, String splitOn, DbDataReader reader) in /_/Dapper/SqlMapper.cs:line 1733
+   at Dapper.SqlMapper.MultiMapImpl[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, CommandDefinition command, Delegate map, String splitOn, DbDataReader reader, Identity identity, Boolean finalize)+MoveNext() in /_/Dapper/SqlMapper.cs:line 1546
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.MultiMap[TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn](IDbConnection cnn, String sql, Delegate map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 1518
+   at Dapper.SqlMapper.Query[TFirst,TSecond,TReturn](IDbConnection cnn, String sql, Func`3 map, Object param, IDbTransaction transaction, Boolean buffered, String splitOn, Nullable`1 commandTimeout, Nullable`1 commandType) in /_/Dapper/SqlMapper.cs:line 1373
+   at Application.Repositories.PedidoRepository.ObterTodosPedidosById(Int32 id) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Repositories\PedidoRepository.cs:line 160
+   at Application.Services.PedidoService.ObterTodosById(Int32 id) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\Application\Services\PedidoService.cs:line 72
+   at fiap_store.Controllers.PedidoController.ObterTodosById() in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Controllers\PedidoController.cs:line 49
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at ExceptionMiddleware.Invoke(HttpContext context) in C:\Users\41140878859\Desktop\projetos_git\fiap-store\fiap-store\Exception\ExceptionMiddleware.cs:line 18', N'1697045284')
 GO
 
 
@@ -252,6 +317,21 @@ GO
 -- Records of Pedido
 -- ----------------------------
 SET IDENTITY_INSERT [dbo].[Pedido] ON
+GO
+
+INSERT INTO [dbo].[Pedido] ([IdPedido], [IdCliente], [DataPedido], [ValorTotal], [Pago]) VALUES (N'4', N'16', N'2023-10-11 12:31:44.390', N'230.40', N'0')
+GO
+
+INSERT INTO [dbo].[Pedido] ([IdPedido], [IdCliente], [DataPedido], [ValorTotal], [Pago]) VALUES (N'5', N'16', N'2023-10-11 12:45:18.790', N'80.20', N'0')
+GO
+
+INSERT INTO [dbo].[Pedido] ([IdPedido], [IdCliente], [DataPedido], [ValorTotal], [Pago]) VALUES (N'8', N'16', N'2023-10-11 15:02:37.343', N'70.00', N'0')
+GO
+
+INSERT INTO [dbo].[Pedido] ([IdPedido], [IdCliente], [DataPedido], [ValorTotal], [Pago]) VALUES (N'9', N'16', N'2023-10-11 15:04:03.673', N'150.20', N'0')
+GO
+
+INSERT INTO [dbo].[Pedido] ([IdPedido], [IdCliente], [DataPedido], [ValorTotal], [Pago]) VALUES (N'10', N'15', N'2023-10-11 16:20:27.010', N'20.40', N'0')
 GO
 
 SET IDENTITY_INSERT [dbo].[Pedido] OFF
@@ -413,7 +493,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Item
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Item]', RESEED, 8)
+DBCC CHECKIDENT ('[dbo].[Item]', RESEED, 15)
 GO
 
 
@@ -438,7 +518,7 @@ GO
 -- ----------------------------
 -- Auto increment value for Pedido
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[Pedido]', RESEED, 4)
+DBCC CHECKIDENT ('[dbo].[Pedido]', RESEED, 10)
 GO
 
 

@@ -25,7 +25,7 @@ namespace Application.Services
 
         public void Alterar(Cliente entidade)
         {
-            throw new NotImplementedException();
+            _clienteRepository.Alterar(entidade);
         }
 
         public async Task<int> Cadastrar(Cliente entidade)

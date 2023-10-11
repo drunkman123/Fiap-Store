@@ -37,5 +37,15 @@ namespace fiap_store.Controllers
             });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ResetSenha([FromBody] ResetSenhaRequest resetSenhaRequest)
+        {
+            bool alteraSenha = true;
+            if (alteraSenha)
+                return Ok("Senha resetada, verifique o e-mail cadastrado.");
+            else
+                return BadRequest("Dados inválidos.");
+        }
+
     }
 }

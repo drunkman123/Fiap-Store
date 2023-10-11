@@ -4,6 +4,8 @@ using Domain.Models;
 using Infrastructure.DbConnection;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +36,7 @@ namespace Application.Repositories
                 OUTPUT INSERTED.[IdPedido]
                 VALUES (@IdCliente, @DataPedido, @ValorTotal, @Pago);";
                 int idPedido = connection.QuerySingle<int>(insertPedidoQuery, pedido, transaction);
-                
+
                 string insertItemQuery = @"
                 INSERT INTO dbo.Item (IdPedido, IdProduto, Quantidade, Preco, SubTotal) 
                 VALUES (@IdPedido, @IdProduto, @Quantidade, @Preco, @SubTotal);";
@@ -42,7 +44,7 @@ namespace Application.Repositories
                 {
                     item.IdPedido = idPedido;
 
-                    connection.Execute(insertItemQuery, item, transaction);
+                    connection.Execute(insertItemQuery, new { IdPedido = item.IdPedido, IdProduto = item.Produto.IdProduto, Quantidade = item.Quantidade, Preco = item.Preco, SubTotal = item.SubTotal }, transaction);
                 }
 
                 string AlterarEstoqueQuery = @"
@@ -51,11 +53,11 @@ namespace Application.Repositories
                                                 WHERE IdProduto = @idProduto;";
                 foreach (var item in pedido.Items)
                 {
-                    connection.Execute(AlterarEstoqueQuery, new { qtde = item.Quantidade, idProduto = item.IdProduto}, transaction);
+                    connection.Execute(AlterarEstoqueQuery, new { qtde = item.Quantidade, idProduto = item.Produto.IdProduto }, transaction);
                 }
 
                 transaction.Commit();
-                
+
                 return idPedido;
             }
             catch (Exception)
@@ -120,16 +122,112 @@ namespace Application.Repositories
 
         public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items)
         {
-            var idProdutos = items.Select(x => x.IdProduto).AsEnumerable();
+            var idProdutos = items.Select(x => x.Produto.IdProduto).AsEnumerable();
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string query = "SELECT IdProduto, Preco FROM dbo.Produto WHERE IdProduto IN @IdsProdutos";
             return await connection.QueryAsync<Item>(query, new { IdsProdutos = idProdutos });
 
         }
 
-        public Task<IEnumerable<Pedido>> ObterTodos()
+        public async Task<IEnumerable<Pedido>> ObterTodos()
         {
-            throw new NotImplementedException();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string query = @"
+                            SELECT
+                                p.IdPedido,
+                                p.IdCliente,                                
+                                p.DataPedido,
+                                p.ValorTotal,
+                                p.Pago,
+                                i.IdPedido,
+                                i.IdItem,
+                                i.IdProduto,                                
+                                i.SubTotal,
+                                i.Preco,
+                                i.Quantidade,
+                                pro.IdProduto,
+                                pro.Nome
+                            FROM
+                                dbo.Pedido p
+                                INNER JOIN dbo.Item i ON p.IdPedido = i.IdPedido
+                                INNER JOIN dbo.Produto pro ON i.IdProduto = pro.IdProduto";
+            var PedidoDictionary = new Dictionary<int, Pedido>();
+
+            var results = connection.Query<Pedido, Item, Produto, Pedido>(
+                query,
+                (p, i, pro) =>
+                {
+                    if (!PedidoDictionary.TryGetValue(i.IdPedido, out var pedido))
+                    {
+                        pedido = p;
+                        pedido.Items = new List<Item>();
+                        pedido.IdPedido = i.IdPedido;
+                        pedido.IdCliente = p.IdCliente;
+                        PedidoDictionary.Add(p.IdPedido, pedido);
+                    }
+
+                    if (i != null)
+                    {
+                        i.Produto = new Produto();
+                        i.Produto.Nome = pro.Nome;
+                        pedido.Items.Add(i);
+                    }
+                    return pedido;
+                },
+                splitOn: "IdPedido, IdProduto"
+            ).ToList();
+            return PedidoDictionary.Values;
+        }
+
+        public async Task<IEnumerable<Pedido>> ObterTodosPedidosById(int id)
+        {
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            string query = @"
+                            SELECT
+                                p.IdPedido,
+                                --p.IdCliente,                                
+                                p.DataPedido,
+                                p.ValorTotal,
+                                p.Pago,
+                                i.IdPedido,
+                                i.IdItem,
+                                i.IdProduto,                                
+                                i.SubTotal,
+                                i.Preco,
+                                i.Quantidade,
+                                pro.IdProduto,
+                                pro.Nome
+                            FROM
+                                dbo.Pedido p
+                                INNER JOIN dbo.Item i ON p.IdPedido = i.IdPedido
+                                INNER JOIN dbo.Produto pro ON i.IdProduto = pro.IdProduto
+                            WHERE
+                                p.IdCliente = @idCliente";
+            var PedidoDictionary = new Dictionary<int, Pedido>();
+
+            var results = connection.Query<Pedido, Item, Produto, Pedido>(
+                query,
+                (p, i, pro) =>
+                {
+                    if (!PedidoDictionary.TryGetValue(i.IdPedido, out var pedido))
+                    {
+                        pedido = p;
+                        pedido.Items = new List<Item>();
+                        pedido.IdPedido = i.IdPedido;
+                        PedidoDictionary.Add(p.IdPedido, pedido);
+                    }
+
+                    if (i != null)
+                    {
+                        i.Produto = new Produto();
+                        i.Produto.Nome = pro.Nome;
+                        pedido.Items.Add(i);
+                    }
+                    return pedido;
+                }, new { idCliente = id },
+                splitOn: "IdPedido, IdProduto"
+            ).ToList();
+            return PedidoDictionary.Values;
         }
     }
 }

@@ -29,9 +29,28 @@ namespace Application.Repositories
 
         }
 
-        public void Alterar(Cliente entidade)
+        public async void Alterar(Cliente entidade)
         {
-            throw new NotImplementedException();
+            using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                string putClienteQuery = @"
+                                        UPDATE Cliente
+                                        SET Email = @Email, Password = @Password, Telefone = @Telefone
+                                        WHERE IdCliente = @IdCliente;";
+
+                int clienteId = connection.Execute(putClienteQuery, entidade, transaction);
+
+                transaction.Commit();
+
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public async Task<int> Cadastrar(Cliente entidade)

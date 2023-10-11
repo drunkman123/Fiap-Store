@@ -19,15 +19,6 @@ namespace Application.Mappings
                                             cadastrarClienteRequest.Password,
                                             cadastrarClienteRequest.DataNascimento,
                                             cadastrarClienteRequest.Endereco) ;
-            //cliente.Endereco = new List<Endereco>();
-            //cliente.Nome = cadastrarClienteRequest.Nome;
-            //cliente.CPF = cadastrarClienteRequest.CPF;
-            //cliente.Telefone = cadastrarClienteRequest.Telefone;
-            //cliente.Email = cadastrarClienteRequest.Email;
-            //cliente.Endereco.Add(cadastrarClienteRequest.Endereco);
-            //cliente.Salt = cliente.GenerateSalt();
-            //cliente.Password = cliente.HashPassword(cadastrarClienteRequest.Password, cliente.Salt);
-
             return cliente;
 
         }

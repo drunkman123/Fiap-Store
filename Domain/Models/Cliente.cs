@@ -37,6 +37,14 @@ namespace Domain.Models
             };
             DataNascimento = dataNascimento;
         }
+
+        public Cliente(string telefone, string email, string password, int idCliente)
+        {
+            Telefone = telefone;
+            Email = email;
+            Password = HashPassword(password);
+            IdCliente = idCliente;
+        }
         private string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);

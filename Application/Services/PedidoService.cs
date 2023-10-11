@@ -56,15 +56,20 @@ namespace Application.Services
             return items;
         }
 
-        public Task<IEnumerable<Pedido>> ObterTodos()
+        public async Task<IEnumerable<Pedido>> ObterTodos()
         {
-            throw new NotImplementedException();
+            return await _pedidoRepository.ObterTodos();
         }
 
         private void CalculateOrderTotal(Pedido pedido, List<Item> items)
         {
             var valorTotalPedido = items.Sum(x => x.SubTotal);
             pedido.ValorTotal = valorTotalPedido;
+        }
+
+        public async Task<IEnumerable<Pedido>> ObterTodosById(int id)
+        {
+            return await _pedidoRepository.ObterTodosPedidosById(id);
         }
     }
 }

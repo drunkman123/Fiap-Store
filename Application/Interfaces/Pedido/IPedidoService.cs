@@ -9,6 +9,7 @@ namespace Application.Interfaces
 {
     public interface IPedidoService
     {
+        Task<IEnumerable<Pedido>> ObterTodosById(int id);
         Task<IEnumerable<Pedido>> ObterTodos();
         Task<Pedido> GetById(int id);
         Task<int> Cadastrar(Pedido entidade);

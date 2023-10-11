@@ -20,7 +20,8 @@ namespace Application.Mappings
             foreach (var item in gerarPedidoRequest.IdProdutoXQuantidade)
             {
                 Item itemToAdd = new Item();
-                itemToAdd.IdProduto = item.IdProduto;
+                itemToAdd.Produto = new Produto();
+                itemToAdd.Produto.IdProduto = item.IdProduto;
                 itemToAdd.Quantidade = item.Quantidade;
                 pedido.Items.Add(itemToAdd);
             }
