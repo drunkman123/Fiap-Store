@@ -22,32 +22,32 @@ namespace fiap_store.Controllers
             _produtoService = produtoService;
         }
         [HttpGet]
-        public async Task<IEnumerable<Produto>> ObterTodosProdutos()
+        public async Task<IEnumerable<Produto>> GetAllProducts()
         {
-            return await _produtoService.ObterTodos();
+            return await _produtoService.GetAll();
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<TipoProduto>> GetTiposProduto()
+        public async Task<IEnumerable<TipoProduto>> GetTypeProducts()
         {
-            return await _produtoService.ObterTodosTiposProdutos();
+            return await _produtoService.GetAllTypesProducts();
         }
 
         [HttpPost]
         [Authorize(Roles = Permissoes.Administrador)]
-        public async Task<IActionResult> Cadastrar([FromBody] CadastrarProdutoRequest produtoRequest)
+        public async Task<IActionResult> Register([FromBody] CadastrarProdutoRequest produtoRequest)
         {
-            var produto = produtoRequest.ToProdutoDomain();
-            var id = await _produtoService.Cadastrar(produto);
+            var produto = produtoRequest.ToProductDomain();
+            var id = await _produtoService.Register(produto);
             var mensagem = $"Produto criado com sucesso! | Id: {id} | Nome: {produto.Nome}";
             return Ok(mensagem);
         }
 
         [HttpPost]
         [Authorize(Roles = Permissoes.Administrador)]
-        public async Task<IActionResult> CadastrarTipoProduto([FromBody] CadastrarTipoProdutoRequest tipoProduto)
+        public async Task<IActionResult> RegisterTypeProduct([FromBody] CadastrarTipoProdutoRequest tipoProduto)
         {
-            var id = await _produtoService.CadastrarTipoProduto(tipoProduto.Tipo.ToUpper());
+            var id = await _produtoService.RegisterTypeProduct(tipoProduto.Tipo.ToUpper());
             var mensagem = $"Tipo de Produto criado com sucesso! | Id: {id} | Nome: {tipoProduto.Tipo}";
             return Ok(mensagem);
         }

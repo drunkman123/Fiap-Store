@@ -14,7 +14,7 @@ namespace Application.Repositories
             _connectionFactory = connectionFactory;
         }
 
-        public async Task<bool> AdicionarEndereco(int clienteId, Endereco endereco)
+        public async Task<bool> AddAddress(int clienteId, Endereco endereco)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
 
@@ -29,7 +29,7 @@ namespace Application.Repositories
 
         }
 
-        public async void Alterar(Cliente entidade)
+        public async void Update(Cliente entidade)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             using var transaction = connection.BeginTransaction();
@@ -53,7 +53,7 @@ namespace Application.Repositories
             }
         }
 
-        public async Task<int> Cadastrar(Cliente entidade)
+        public async Task<int> Register(Cliente entidade)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             using var transaction = connection.BeginTransaction();
@@ -85,7 +85,7 @@ namespace Application.Repositories
             }
 
         }
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -103,7 +103,7 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Cliente>> ObterTodos()
+        public async Task<IEnumerable<Cliente>> GetAll()
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string selectQuery = @"

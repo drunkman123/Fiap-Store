@@ -6,7 +6,7 @@ namespace Application.Mappings
 {
     public static class GetClienteByIdResponse
     {
-        public static GetClienteResponse ToClienteResponse(this Cliente clienteDomain)
+        public static GetClienteResponse ToClientResponse(this Cliente clienteDomain)
         {
             GetClienteResponse clienteResponse = new GetClienteResponse();
             clienteResponse.Id = clienteDomain.IdCliente;

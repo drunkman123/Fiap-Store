@@ -9,11 +9,11 @@ namespace Application.Interfaces
 {
     public interface IPedidoService
     {
-        Task<IEnumerable<Pedido>> ObterTodosById(int id);
-        Task<IEnumerable<Pedido>> ObterTodos();
+        Task<IEnumerable<Pedido>> GetAllById(int id);
+        Task<IEnumerable<Pedido>> GetAll();
         Task<Pedido> GetById(int id);
-        Task<int> Cadastrar(Pedido entidade);
-        void Alterar(Pedido entidade);
-        void Deletar(int id);
+        Task<int> Register(Pedido entidade);
+        void Update(Pedido entidade);
+        void Delete(int id);
     }
 }

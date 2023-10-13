@@ -10,7 +10,7 @@ namespace Application.Mappings
 {
     public static class GerarPedidoRequestToPedidoDomain
     {
-        public static Pedido ToPedidoDomain(this GerarPedidoRequest gerarPedidoRequest, int idCliente)
+        public static Pedido ToOrderDomain(this GerarPedidoRequest gerarPedidoRequest, int idCliente)
         {
             Pedido pedido = new Pedido();
             pedido.IdCliente = idCliente;

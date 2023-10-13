@@ -9,8 +9,8 @@ namespace Application.Interfaces
 {
     public interface IProdutoRepository : IRepository<Produto>
     {
-        Task<int> CadastrarTipoProduto(string tipoProduto);
-        Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos();
+        Task<int> RegisterTypeProducts(string tipoProduto);
+        Task<IEnumerable<TipoProduto>> GetAllTypesProducts();
 
     }
 }

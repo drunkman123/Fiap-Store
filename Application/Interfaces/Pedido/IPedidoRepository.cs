@@ -9,8 +9,8 @@ namespace Application.Interfaces
 {
     public interface IPedidoRepository : IRepository<Pedido>
     {
-        Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items);
-        Task<IEnumerable<Pedido>> ObterTodosPedidosById(int id);
+        Task<IEnumerable<Item>> GetOrderProductsPrices(List<Item> items);
+        Task<IEnumerable<Pedido>> GetAllOrderById(int id);
 
     }
 }

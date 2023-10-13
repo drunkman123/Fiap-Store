@@ -19,7 +19,7 @@ namespace fiap_store.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Autenticar([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest loginRequest)
         {
             Cliente cliente = await _tokenService.VerifyLogin(loginRequest.CPF);
             if (cliente == null)
@@ -27,7 +27,7 @@ namespace fiap_store.Controllers
             var success = BCrypt.Net.BCrypt.Verify(loginRequest.Password, cliente.Password);
             if (success == false)
                 return BadRequest(new { mensage = "CPF ou Senha inválidos." });
-            var token = _tokenService.GerarToken(cliente);
+            var token = _tokenService.GenerateToken(cliente);
             cliente.Password = null;
             return Ok(new
             {
@@ -38,7 +38,7 @@ namespace fiap_store.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetSenha([FromBody] ResetSenhaRequest resetSenhaRequest)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetSenhaRequest resetSenhaRequest)
         {
             bool alteraSenha = true;
             if (alteraSenha)

@@ -25,12 +25,12 @@ namespace fiap_store.Controllers
         // POST api/<PedidoController>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> GerarPedido([FromBody] GerarPedidoRequest gerarPedido)
+        public async Task<IActionResult> GenerateOrder([FromBody] GerarPedidoRequest gerarPedido)
         {
-            var pedido = gerarPedido.ToPedidoDomain(Convert.ToInt32(User.FindFirst("IdCliente")));
+            var pedido = gerarPedido.ToOrderDomain(Convert.ToInt32(User.FindFirst("IdCliente")));
             
 
-            var idPedido = await _pedidoService.Cadastrar(pedido);
+            var idPedido = await _pedidoService.Register(pedido);
 
             var Pagamento = "Efetuar o pagamento";
 
@@ -41,23 +41,23 @@ namespace fiap_store.Controllers
         // POST api/<PedidoController>
         [HttpGet()]
         [Authorize]
-        public async Task<IActionResult> ObterTodosPedidosPorCliente()
+        public async Task<IActionResult> GetAllOrdersByCustomer()
         {
             var userIdClaim = User.FindFirst("IdCliente");
 
             if (userIdClaim == null)
                 return Forbid();
 
-            IEnumerable<Pedido> pedidos = await _pedidoService.ObterTodosById(Convert.ToInt32(userIdClaim));
+            IEnumerable<Pedido> pedidos = await _pedidoService.GetAllById(Convert.ToInt32(userIdClaim));
 
             return Ok(pedidos.ToOrdersResponse());
         }
         // POST api/<PedidoController>
         [HttpGet()]
         [Authorize(Roles = Permissoes.Administrador)]
-        public async Task<IActionResult> ObterTodos()
+        public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Pedido> pedidos = await _pedidoService.ObterTodos();
+            IEnumerable<Pedido> pedidos = await _pedidoService.GetAll();
 
             return Ok(pedidos.ToOrdersResponse());
         }

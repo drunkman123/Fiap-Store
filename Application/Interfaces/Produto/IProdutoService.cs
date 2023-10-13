@@ -9,12 +9,12 @@ namespace Application.Interfaces
 {
     public interface IProdutoService
     {
-        Task<int> CadastrarTipoProduto(string tipoProduto);
-        Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos();
-        Task<IEnumerable<Produto>> ObterTodos();
+        Task<int> RegisterTypeProduct(string tipoProduto);
+        Task<IEnumerable<TipoProduto>> GetAllTypesProducts();
+        Task<IEnumerable<Produto>> GetAll();
         Task<Produto> GetById(int id);
-        Task<int> Cadastrar(Produto entidade);
-        void Alterar(Produto entidade);
-        void Deletar(int id);
+        Task<int> Register(Produto entidade);
+        void Update(Produto entidade);
+        void Delete(int id);
     }
 }

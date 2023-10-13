@@ -12,22 +12,22 @@ namespace Application.Services
         {
             _produtoRepository = produtoRepository;
         }
-        public void Alterar(Produto entidade)
+        public void Update(Produto entidade)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> Cadastrar(Produto produto)
+        public async Task<int> Register(Produto produto)
         {
-            return await _produtoRepository.Cadastrar(produto);
+            return await _produtoRepository.Register(produto);
         }
 
-        public async Task<int> CadastrarTipoProduto(string tipoProduto)
+        public async Task<int> RegisterTypeProduct(string tipoProduto)
         {
-            return await _produtoRepository.CadastrarTipoProduto(tipoProduto);
+            return await _produtoRepository.RegisterTypeProducts(tipoProduto);
         }
 
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -37,14 +37,14 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Produto>> ObterTodos()
+        public async Task<IEnumerable<Produto>> GetAll()
         {
-            return await _produtoRepository.ObterTodos();
+            return await _produtoRepository.GetAll();
         }
 
-        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos()
+        public async Task<IEnumerable<TipoProduto>> GetAllTypesProducts()
         {
-            return await _produtoRepository.ObterTodosTiposProdutos();
+            return await _produtoRepository.GetAllTypesProducts();
         }
     }
 }

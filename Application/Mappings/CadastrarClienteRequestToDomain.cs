@@ -10,7 +10,7 @@ namespace Application.Mappings
 {
     public static class CadastrarClienteRequestToDomain
     {
-        public static Cliente ToClienteDomain(this CadastrarClienteRequest cadastrarClienteRequest)
+        public static Cliente ToClientDomain(this CadastrarClienteRequest cadastrarClienteRequest)
         {
             Cliente cliente = new Cliente(cadastrarClienteRequest.Nome, 
                                             cadastrarClienteRequest.CPF, 

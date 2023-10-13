@@ -9,11 +9,11 @@ namespace Application.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<IEnumerable<T>> ObterTodos();
+        Task<IEnumerable<T>> GetAll();
         Task<T> GetById(int id);
-        Task<int> Cadastrar(T entidade);
-        void Alterar(T entidade);
-        void Deletar(int id);
+        Task<int> Register(T entidade);
+        void Update(T entidade);
+        void Delete(int id);
 
     }
 }

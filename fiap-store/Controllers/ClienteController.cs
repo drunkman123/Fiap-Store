@@ -26,7 +26,7 @@ namespace fiap_store.Controllers
         [Authorize(Roles = Permissoes.Administrador)]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Cliente> cliente = await _clienteService.ObterTodos();
+            IEnumerable<Cliente> cliente = await _clienteService.GetAll();
             var Clientes = cliente.ToAllClientsResponse();
             return Ok(Clientes);
         }
@@ -43,19 +43,19 @@ namespace fiap_store.Controllers
             
             Cliente cliente = await _clienteService.Get(Convert.ToInt32(userIdClaim));
 
-            return Ok(cliente.ToClienteResponse());
+            return Ok(cliente.ToClientResponse());
         }
 
         // POST api/<ClienteController>
         [HttpPost]
-        public async Task<IActionResult> Cadastrar([FromBody] CadastrarClienteRequest cliente)
+        public async Task<IActionResult> Register([FromBody] CadastrarClienteRequest cliente)
         {
             if (await ExistsClient(cliente.CPF))
                 return BadRequest(new { erro = "CPF já cadastrado." });
 
-            var clienteDomain = cliente.ToClienteDomain();
+            var clienteDomain = cliente.ToClientDomain();
             
-            var id = await _clienteService.Cadastrar(clienteDomain);
+            var id = await _clienteService.Register(clienteDomain);
 
             var mensagem = $"Cliente cadastrado com sucesso! | Id: {id} | Nome: {cliente.Nome}";
             return Ok(mensagem);
@@ -64,14 +64,14 @@ namespace fiap_store.Controllers
         // POST api/<ClienteController>
         [HttpPost()]
         [Authorize]
-        public async Task<IActionResult> AdicionarEndereco([FromBody] Endereco endereco)
+        public async Task<IActionResult> AddAddress([FromBody] Endereco endereco)
         {
             var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
 
             if (userIdClaim == null)
                 return Forbid();
             
-            await _clienteService.AdicionarEndereco(userIdClaim, endereco);
+            await _clienteService.AddAddress(userIdClaim, endereco);
 
             var mensagem = $"Endereço adicionado com sucesso! | IdCliente: {userIdClaim}";
 
@@ -84,8 +84,8 @@ namespace fiap_store.Controllers
         public async Task<IActionResult> Put([FromBody] AlterarClienteRequest dadosAlteracao)
         {
             var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
-            var cliente = dadosAlteracao.ToClienteDomain(userIdClaim);
-            _clienteService.Alterar(cliente);
+            var cliente = dadosAlteracao.ToClientDomain(userIdClaim);
+            _clienteService.Update(cliente);
             return Ok();
 
         }

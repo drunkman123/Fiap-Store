@@ -20,7 +20,7 @@ namespace Application.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public async Task<Cliente> ObterJWTCliente(string cpf)
+        public async Task<Cliente> GetJWTClient(string cpf)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             var query = "SELECT * FROM Cliente WHERE Cliente.CPF = @CPF";

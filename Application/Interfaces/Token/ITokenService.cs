@@ -10,7 +10,7 @@ namespace Application.Interfaces.Token
 {
     public interface ITokenService
     {
-        string GerarToken(Cliente cliente);
+        string GenerateToken(Cliente cliente);
         Task<Cliente> VerifyLogin(string cpf);
 
     }

@@ -9,12 +9,12 @@ namespace Application.Interfaces
 {
     public interface IClienteService
     {
-        Task<bool> AdicionarEndereco(int clienteId, Endereco endereco);
+        Task<bool> AddAddress(int clienteId, Endereco endereco);
         Task<bool> ExistsClient(string cpf);
-        Task<IEnumerable<Cliente>> ObterTodos();
+        Task<IEnumerable<Cliente>> GetAll();
         Task<Cliente> Get(int id);
-        Task<int> Cadastrar(Cliente entidade);
-        void Alterar(Cliente entidade);
-        void Deletar(int id);
+        Task<int> Register(Cliente entidade);
+        void Update(Cliente entidade);
+        void Delete(int id);
     }
 }

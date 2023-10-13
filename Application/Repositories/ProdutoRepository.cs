@@ -18,12 +18,12 @@ namespace Application.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public void Alterar(Produto entidade)
+        public void Update(Produto entidade)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> Cadastrar(Produto produto)
+        public async Task<int> Register(Produto produto)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             using var transaction = connection.BeginTransaction();
@@ -49,7 +49,7 @@ namespace Application.Repositories
             }
         }
 
-        public async Task<int> CadastrarTipoProduto(string tipoProduto)
+        public async Task<int> RegisterTypeProducts(string tipoProduto)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string insertQuery = @"
@@ -60,7 +60,7 @@ namespace Application.Repositories
             
         }
 
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -75,7 +75,7 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Produto>> ObterTodos()
+        public async Task<IEnumerable<Produto>> GetAll()
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string getQuery = @"
@@ -92,7 +92,7 @@ namespace Application.Repositories
             return await connection.QueryAsync<Produto>(getQuery);
         }
 
-        public async Task<IEnumerable<TipoProduto>> ObterTodosTiposProdutos()
+        public async Task<IEnumerable<TipoProduto>> GetAllTypesProducts()
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string getQuery = @"

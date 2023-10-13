@@ -20,7 +20,7 @@ namespace Application.Services
             _tokenRepository = tokenRepository;
         }
 
-        public string GerarToken(Cliente usuario)
+        public string GenerateToken(Cliente usuario)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("JWTSecret")!);
@@ -45,7 +45,7 @@ namespace Application.Services
         public async Task<Cliente> VerifyLogin(string cpf)
         {
 
-            return await _tokenRepository.ObterJWTCliente(cpf);
+            return await _tokenRepository.GetJWTClient(cpf);
         }
     }
 }

@@ -18,22 +18,22 @@ namespace Application.Services
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<bool> AdicionarEndereco(int clienteId, Endereco endereco)
+        public async Task<bool> AddAddress(int clienteId, Endereco endereco)
         {
-            return await _clienteRepository.AdicionarEndereco(clienteId,endereco);
+            return await _clienteRepository.AddAddress(clienteId,endereco);
         }
 
-        public void Alterar(Cliente entidade)
+        public void Update(Cliente entidade)
         {
-            _clienteRepository.Alterar(entidade);
+            _clienteRepository.Update(entidade);
         }
 
-        public async Task<int> Cadastrar(Cliente entidade)
+        public async Task<int> Register(Cliente entidade)
         {
-                return await _clienteRepository.Cadastrar(entidade);
+                return await _clienteRepository.Register(entidade);
         }
 
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -48,9 +48,9 @@ namespace Application.Services
             return await _clienteRepository.Get(id);
         }
 
-        public async Task<IEnumerable<Cliente>> ObterTodos()
+        public async Task<IEnumerable<Cliente>> GetAll()
         {
-            return await _clienteRepository.ObterTodos();
+            return await _clienteRepository.GetAll();
         }
 
     }

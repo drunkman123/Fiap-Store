@@ -20,12 +20,12 @@ namespace Application.Repositories
         {
             _connectionFactory = connectionFactory;
         }
-        public void Alterar(Pedido entidade)
+        public void Update(Pedido entidade)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> Cadastrar(Pedido pedido)
+        public async Task<int> Register(Pedido pedido)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             using var transaction = connection.BeginTransaction();
@@ -67,7 +67,7 @@ namespace Application.Repositories
             }
         }
 
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -120,7 +120,7 @@ namespace Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items)
+        public async Task<IEnumerable<Item>> GetOrderProductsPrices(List<Item> items)
         {
             var idProdutos = items.Select(x => x.Produto.IdProduto).AsEnumerable();
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
@@ -129,7 +129,7 @@ namespace Application.Repositories
 
         }
 
-        public async Task<IEnumerable<Pedido>> ObterTodos()
+        public async Task<IEnumerable<Pedido>> GetAll()
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string query = @"
@@ -179,7 +179,7 @@ namespace Application.Repositories
             return PedidoDictionary.Values;
         }
 
-        public async Task<IEnumerable<Pedido>> ObterTodosPedidosById(int id)
+        public async Task<IEnumerable<Pedido>> GetAllOrderById(int id)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(DatabaseConnectionName.DB_FIAP_STORE);
             string query = @"

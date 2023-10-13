@@ -10,7 +10,7 @@ namespace Application.Mappings
 {
     public static class CadastrarProdutoRequestToDomain
     {
-        public static Produto ToProdutoDomain(this CadastrarProdutoRequest cadastrarProdutoRequest)
+        public static Produto ToProductDomain(this CadastrarProdutoRequest cadastrarProdutoRequest)
         {
             Produto produto = new Produto();
             produto.IdProduto = 0;

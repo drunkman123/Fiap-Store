@@ -17,21 +17,21 @@ namespace Application.Services
         {
             _pedidoRepository = pedidoRepository;
         }
-        public void Alterar(Pedido entidade)
+        public void Update(Pedido entidade)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> Cadastrar(Pedido pedido)
+        public async Task<int> Register(Pedido pedido)
         {
-            pedido.Items = (List<Item>)await GetPrecosProdutosPedidos(pedido.Items);
+            pedido.Items = (List<Item>)await GetPriceProductsOrder(pedido.Items);
 
             CalculateOrderTotal(pedido, pedido.Items);
 
-            return await _pedidoRepository.Cadastrar(pedido);
+            return await _pedidoRepository.Register(pedido);
         }
 
-        public void Deletar(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -41,9 +41,9 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        private async Task<IEnumerable<Item>> GetPrecosProdutosPedidos(List<Item> items)
+        private async Task<IEnumerable<Item>> GetPriceProductsOrder(List<Item> items)
         {
-            var precosProdutos = await _pedidoRepository.GetPrecosProdutosPedidos(items);
+            var precosProdutos = await _pedidoRepository.GetOrderProductsPrices(items);
             var contador = 0;
             foreach(var item in precosProdutos)
             {
@@ -56,9 +56,9 @@ namespace Application.Services
             return items;
         }
 
-        public async Task<IEnumerable<Pedido>> ObterTodos()
+        public async Task<IEnumerable<Pedido>> GetAll()
         {
-            return await _pedidoRepository.ObterTodos();
+            return await _pedidoRepository.GetAll();
         }
 
         private void CalculateOrderTotal(Pedido pedido, List<Item> items)
@@ -67,9 +67,9 @@ namespace Application.Services
             pedido.ValorTotal = valorTotalPedido;
         }
 
-        public async Task<IEnumerable<Pedido>> ObterTodosById(int id)
+        public async Task<IEnumerable<Pedido>> GetAllById(int id)
         {
-            return await _pedidoRepository.ObterTodosPedidosById(id);
+            return await _pedidoRepository.GetAllOrderById(id);
         }
     }
 }
