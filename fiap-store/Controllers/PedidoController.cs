@@ -27,7 +27,7 @@ namespace fiap_store.Controllers
         [Authorize]
         public async Task<IActionResult> GenerateOrder([FromBody] GerarPedidoRequest gerarPedido)
         {
-            var pedido = gerarPedido.ToOrderDomain(Convert.ToInt32(User.FindFirst("IdCliente")));
+            var pedido = gerarPedido.ToOrderDomain(Convert.ToInt32(User.FindFirst("IdCliente").Value));
             
 
             var idPedido = await _pedidoService.Register(pedido);
@@ -48,7 +48,7 @@ namespace fiap_store.Controllers
             if (userIdClaim == null)
                 return Forbid();
 
-            IEnumerable<Pedido> pedidos = await _pedidoService.GetAllById(Convert.ToInt32(userIdClaim));
+            IEnumerable<Pedido> pedidos = await _pedidoService.GetAllById(Convert.ToInt32(userIdClaim.Value));
 
             return Ok(pedidos.ToOrdersResponse());
         }

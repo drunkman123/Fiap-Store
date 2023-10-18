@@ -34,14 +34,14 @@ namespace fiap_store.Controllers
         // GET api/<ClienteController>/5
         [HttpGet("{idCliente}")]
         [Authorize]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string idCliente)
         {
             var userIdClaim = User.FindFirst("IdCliente");
 
-            if (userIdClaim == null)           
+            if (userIdClaim == null || idCliente != userIdClaim.Value)           
                 return Forbid();
             
-            Cliente cliente = await _clienteService.Get(Convert.ToInt32(userIdClaim));
+            Cliente cliente = await _clienteService.Get(Convert.ToInt32(userIdClaim.Value));
 
             return Ok(cliente.ToClientResponse());
         }
