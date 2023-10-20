@@ -8,6 +8,10 @@
 - open https://localhost:8080/swagger/index.html on browser
 - use the endpoint "/api/Login/Authenticate" to get a JWT
 
-## Default user
+## Admin user
 - cpf: 11111111111
+- password: test
+
+## Client user
+- cpf: 22222222222
 - password: test
