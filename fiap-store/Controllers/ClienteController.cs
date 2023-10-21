@@ -66,7 +66,7 @@ namespace fiap_store.Controllers
         [Authorize]
         public async Task<IActionResult> AddAddress([FromBody] Endereco endereco)
         {
-            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
+            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente").Value);
 
             if (userIdClaim == null)
                 return Forbid();
@@ -83,19 +83,13 @@ namespace fiap_store.Controllers
         [Authorize]
         public async Task<IActionResult> Put([FromBody] AlterarClienteRequest dadosAlteracao)
         {
-            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente"));
+            var userIdClaim = Convert.ToInt32(User.FindFirst("IdCliente").Value);
             var cliente = dadosAlteracao.ToClientDomain(userIdClaim);
             _clienteService.Update(cliente);
             return Ok();
 
         }
-
-        // DELETE api/<ClienteController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-
-        }
+            
 
         [HttpGet("{cpf}")]
         public async Task<bool> ExistsClient(string cpf)
