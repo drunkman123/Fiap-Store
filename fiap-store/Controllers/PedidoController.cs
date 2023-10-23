@@ -16,10 +16,12 @@ namespace fiap_store.Controllers
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public PedidoController(IPedidoService pedidoService)
+        public PedidoController(IPedidoService pedidoService, IProdutoRepository produtoRepository)
         {
             _pedidoService = pedidoService;
+            _produtoRepository = produtoRepository;
         }
 
         // POST api/<PedidoController>
@@ -28,7 +30,12 @@ namespace fiap_store.Controllers
         public async Task<IActionResult> GenerateOrder([FromBody] GerarPedidoRequest gerarPedido)
         {
             var pedido = gerarPedido.ToOrderDomain(Convert.ToInt32(User.FindFirst("IdCliente").Value));
-            
+            var orderItems = gerarPedido.IdProdutoXQuantidade.Select(x => (x.IdProduto, x.Quantidade));
+            var products = await _produtoRepository.GetAll();
+            var withoutStock = orderItems.FirstOrDefault(i => products.Any(p => p.IdProduto == i.IdProduto && p.Quantidade < i.Quantidade));
+
+            if (withoutStock is {})
+                return BadRequest($"Produto com id {withoutStock.IdProduto} sem estoque");
 
             var idPedido = await _pedidoService.Register(pedido);
 
