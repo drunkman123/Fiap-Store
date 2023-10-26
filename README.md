@@ -1,7 +1,7 @@
 # Fiap-Store
  Tech Challenge 1 FIAP 2NETT
 
-#Integrantes do Grupo 34
+##Integrantes do Grupo 34
 
 -Edmundo Junior RM351083
 -Felipe Andreoli  RM350666
